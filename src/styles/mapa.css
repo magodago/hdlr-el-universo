@@ -1,0 +1,318 @@
+/* ------------------------------------------------------------------
+   MAPA DE LA RUINA
+   Espana en negro, ciudades como nodos luminosos con halo rojo oscuro.
+   Todo el movimiento se hace con transform y opacity: nada de animar
+   box-shadow, filtros ni tamanos, para que aguante en movil.
+   Las variables de color vienen de src/index.css (@theme).
+   ------------------------------------------------------------------ */
+
+.mp-frame {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--color-steel);
+  background: var(--color-void);
+}
+
+/* El mar: un tono por encima del negro del pais, con una luz roja baja
+   detras de la peninsula. Asi Espana, en negro, se recorta y se lee. */
+.mp-stage {
+  position: relative;
+  overflow: hidden;
+  touch-action: manipulation;
+  background:
+    radial-gradient(58% 50% at 56% 42%, rgba(143, 17, 22, 0.3) 0%, rgba(143, 17, 22, 0) 68%),
+    radial-gradient(130% 120% at 50% 124%, #191920 0%, #0b0b10 62%, #08080c 100%);
+}
+
+/* Rejilla de agua: se ve solo sobre el mar, porque la tierra la tapa. */
+.mp-grid {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  opacity: 0.75;
+  pointer-events: none;
+}
+
+.mp-zoom {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  transform-origin: 0 0;
+  transition: transform 0.62s var(--ease-brut);
+  will-change: transform;
+}
+
+.mp-svg {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+/* La tierra: negro casi puro sobre el mar, con un canto rojo y un filo claro. */
+.mp-land {
+  fill: #030304;
+  stroke: rgba(196, 22, 29, 0.55);
+  stroke-width: 1.8;
+}
+
+.mp-land-edge {
+  fill: none;
+  stroke: rgba(243, 241, 238, 0.28);
+  stroke-width: 0.7;
+}
+
+.mp-graticule line {
+  stroke: rgba(143, 143, 152, 0.12);
+  stroke-width: 0.6;
+}
+
+/* Nodo de ciudad. El area tactil es de 44x44 aunque el punto sea pequeño. */
+.mp-node {
+  position: absolute;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  transform-origin: 0 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mp-halo {
+  grid-area: 1 / 1;
+  width: 46px;
+  height: 46px;
+  border-radius: 999px;
+  background: radial-gradient(
+    circle,
+    rgba(143, 17, 22, 0.55) 0%,
+    rgba(143, 17, 22, 0.16) 42%,
+    rgba(143, 17, 22, 0) 70%
+  );
+  opacity: 0.7;
+  transition: opacity 0.35s ease;
+}
+
+.mp-core {
+  grid-area: 1 / 1;
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  background: radial-gradient(circle at 34% 30%, #ff6267 0%, var(--color-blood-bright) 52%, #6d0b0f 100%);
+  box-shadow:
+    0 0 0 2px rgba(5, 5, 6, 0.85),
+    0 0 12px 2px rgba(196, 22, 29, 0.75);
+  transition:
+    width 0.3s var(--ease-brut),
+    height 0.3s var(--ease-brut),
+    background 0.3s ease;
+}
+
+.mp-ring {
+  grid-area: 1 / 1;
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  border: 1px solid rgba(196, 22, 29, 0.5);
+}
+
+/* Próxima parada: el anillo late. Solo transform y opacity. */
+.mp-node[data-past='false'] .mp-ring {
+  animation: mp-beat 3s ease-in-out infinite;
+}
+
+@keyframes mp-beat {
+  0%,
+  100% {
+    transform: scale(0.86);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.18);
+    opacity: 1;
+  }
+}
+
+/* Recinto sin confirmar: anillo discontinuo. */
+.mp-node[data-confirmed='false'] .mp-ring {
+  border-style: dashed;
+  border-color: rgba(196, 22, 29, 0.85);
+  animation: none;
+}
+.mp-node[data-confirmed='false'] .mp-core {
+  background: radial-gradient(circle at 34% 30%, #ff8a8d 0%, var(--color-blood) 60%, #3d0608 100%);
+}
+
+/* Ya celebrado: apagado. */
+.mp-node[data-past='true'] .mp-core {
+  width: 7px;
+  height: 7px;
+  background: var(--color-ash);
+  box-shadow: 0 0 0 2px rgba(5, 5, 6, 0.85);
+}
+.mp-node[data-past='true'] .mp-ring {
+  border-color: rgba(143, 143, 152, 0.35);
+  animation: none;
+}
+.mp-node[data-past='true'] .mp-halo {
+  background: radial-gradient(circle, rgba(143, 143, 152, 0.3) 0%, rgba(143, 143, 152, 0) 68%);
+}
+
+/* Seleccionada: crece el núcleo y se enciende el anillo. */
+.mp-node[data-active='true'] .mp-core,
+.mp-node:hover .mp-core,
+.mp-node:focus-visible .mp-core {
+  width: 15px;
+  height: 15px;
+}
+.mp-node[data-active='true'] .mp-ring {
+  width: 34px;
+  height: 34px;
+  border-color: var(--color-bone);
+  animation: none;
+}
+.mp-node[data-active='true'] .mp-halo {
+  opacity: 1;
+}
+.mp-node:hover .mp-ring,
+.mp-node:focus-visible .mp-ring {
+  width: 30px;
+  height: 30px;
+  border-color: rgba(243, 241, 238, 0.7);
+}
+
+.mp-label {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translate(-50%, 2px);
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--color-smoke);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.mp-node:hover .mp-label,
+.mp-node:focus-visible .mp-label,
+.mp-node[data-active='true'] .mp-label {
+  opacity: 1;
+  color: var(--color-bone);
+}
+
+/* En movil la etiqueta solo aparece cuando el mapa ya ha hecho zoom. */
+@media (max-width: 640px) {
+  .mp-node[data-active='true'] .mp-label {
+    display: none;
+  }
+  .mp-zoomed .mp-node[data-active='true'] .mp-label {
+    display: block;
+  }
+}
+
+/* Recuadro de Canarias: fuera de escala, para situar lo que no cabe. */
+.mp-inset {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  z-index: 4;
+  width: 78px;
+  border: 1px solid var(--color-steel);
+  background: rgba(5, 5, 6, 0.88);
+  padding: 6px 6px 4px;
+  backdrop-filter: blur(4px);
+}
+@media (min-width: 640px) {
+  .mp-inset {
+    width: 108px;
+    padding: 8px 8px 6px;
+  }
+}
+
+.mp-inset-title {
+  font-family: var(--font-body);
+  font-size: 8px;
+  line-height: 1.25;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-ash);
+}
+.mp-inset-plot {
+  position: relative;
+  margin-top: 6px;
+  height: 34px;
+}
+@media (min-width: 640px) {
+  .mp-inset-plot {
+    height: 46px;
+  }
+}
+
+.mp-credit {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  z-index: 4;
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-smoke);
+  text-shadow: 0 1px 6px rgba(5, 5, 6, 0.95);
+}
+
+.mp-zoom-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 5;
+  min-height: 44px;
+}
+
+/* Marca de la ciudad seleccionada sobre el mapa: cruz fina de registro. */
+.mp-crosshair {
+  position: absolute;
+  z-index: 2;
+  width: 74px;
+  height: 74px;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+.mp-crosshair::before,
+.mp-crosshair::after {
+  content: '';
+  position: absolute;
+  background: rgba(243, 241, 238, 0.28);
+}
+.mp-crosshair::before {
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 1px;
+}
+.mp-crosshair::after {
+  left: 50%;
+  top: 0;
+  width: 1px;
+  height: 100%;
+}
+
+/* Movimiento reducido: fuera latidos y transiciones de zoom largas. */
+@media (prefers-reduced-motion: reduce) {
+  .mp-node[data-past='false'] .mp-ring {
+    animation: none;
+  }
+  .mp-zoom {
+    transition: none;
+  }
+}

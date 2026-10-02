@@ -1,0 +1,281 @@
+/* ------------------------------------------------------------------
+   ARCHIVO (experiencia 05)
+   Cronologia como recorrido vertical: espina que se rellena al bajar,
+   anos grandes que se encienden al entrar en pantalla y cada hito con
+   su fuente. Sobrio, sin ruido, movil primero.
+   ------------------------------------------------------------------ */
+
+.ar-rail {
+  position: relative;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+/* Espina vertical: la linea que se recorre. */
+.ar-spine {
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  left: 8px;
+  width: 2px;
+  overflow: hidden;
+  border-radius: 2px;
+  background: var(--color-steel);
+}
+
+.ar-spine-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 0;
+  background: linear-gradient(180deg, var(--color-blood-bright) 0%, var(--color-blood) 100%);
+  transition: height 0.15s linear;
+}
+
+.ar-item {
+  position: relative;
+  padding: 0 0 3.25rem 44px;
+}
+
+.ar-item:last-child {
+  padding-bottom: 0.5rem;
+}
+
+/* Nodo sobre la espina. */
+.ar-node {
+  position: absolute;
+  top: 12px;
+  left: 3px;
+  width: 12px;
+  height: 12px;
+  margin: 0;
+  border-radius: 999px;
+  border: 1px solid var(--color-blood-bright);
+  background: var(--color-void);
+  transform: scale(0);
+  transform-origin: center;
+  transition: transform 0.55s var(--ease-brut) 0.12s;
+}
+.ar-item.is-in .ar-node {
+  transform: scale(1);
+}
+.ar-item[data-tag='hito'] .ar-node {
+  background: var(--color-blood-bright);
+  box-shadow: 0 0 0 4px rgba(143, 17, 22, 0.28);
+}
+.ar-item[data-active='true'] .ar-node {
+  border-color: var(--color-bone);
+  box-shadow: 0 0 0 5px rgba(143, 17, 22, 0.4);
+}
+
+/* Ano grande. En reposo queda contorneado; al entrar se enciende y se
+   adelanta hacia la linea, que es lo que da la sensacion de avanzar. */
+.ar-year {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(2.9rem, 13vw, 4.6rem);
+  line-height: 0.82;
+  letter-spacing: 0.02em;
+  color: transparent;
+  -webkit-text-stroke: 1.4px rgba(243, 241, 238, 0.4);
+  transition:
+    color 0.6s var(--ease-brut),
+    -webkit-text-stroke-color 0.6s var(--ease-brut),
+    opacity 0.8s var(--ease-brut),
+    transform 0.9s var(--ease-brut);
+}
+.ar-item[data-active='true'] .ar-year {
+  color: var(--color-bone);
+  -webkit-text-stroke-color: rgba(243, 241, 238, 0.9);
+}
+.ar-item.reveal .ar-year {
+  opacity: 0;
+  transform: translateX(-16px);
+}
+.ar-item.reveal.is-in .ar-year {
+  opacity: 1;
+  transform: none;
+}
+
+.ar-when {
+  margin-top: 0.9rem;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--color-ash);
+}
+
+.ar-title {
+  margin-top: 0.35rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 5.4vw, 2rem);
+  line-height: 1.02;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--color-bone);
+}
+
+.ar-text {
+  margin-top: 0.75rem;
+  max-width: 52ch;
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--color-smoke);
+}
+
+.ar-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 1rem;
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-ash);
+}
+.ar-tag::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--color-ash);
+}
+.ar-item[data-tag='hdlr'] .ar-tag::before {
+  background: var(--color-blood-bright);
+}
+.ar-item[data-tag='hito'] .ar-tag::before {
+  background: var(--color-bone);
+}
+.ar-item[data-tag='origen'] .ar-tag::before {
+  background: var(--color-smoke);
+}
+
+.ar-source {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  margin-top: 0.5rem;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-smoke);
+}
+.ar-source:hover,
+.ar-source:focus-visible {
+  color: var(--color-bone);
+}
+
+/* Barra fija dentro de la seccion: el ano que se esta cruzando. */
+.ar-sticky {
+  position: sticky;
+  top: 3.5rem;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  border: 1px solid var(--color-steel);
+  background: rgba(10, 10, 12, 0.9);
+  padding: 0.6rem 0.9rem;
+  backdrop-filter: blur(8px);
+}
+
+.ar-sticky-label {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--color-ash);
+}
+
+.ar-sticky-year {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  color: var(--color-bone);
+}
+
+.ar-sticky-track {
+  position: relative;
+  flex: 1;
+  height: 2px;
+  min-width: 40px;
+  background: var(--color-steel);
+}
+.ar-sticky-thumb {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  background: var(--color-blood-bright);
+  transition: width 0.15s linear;
+}
+
+/* ---- Escritorio: recorrido a dos columnas con la espina en el centro ---- */
+@media (min-width: 900px) {
+  .ar-spine {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .ar-item {
+    width: 50%;
+    padding: 0 3.5rem 4.5rem 0;
+  }
+
+  .ar-item:nth-child(even) {
+    margin-left: 50%;
+    padding-right: 0;
+    padding-left: 3.5rem;
+  }
+
+  /* El nodo se ancla a la espina central en lugar de a la izquierda. */
+  .ar-item .ar-node {
+    left: auto;
+    right: -6px;
+  }
+  .ar-item:nth-child(even) .ar-node {
+    right: auto;
+    left: -6px;
+  }
+
+  .ar-item.reveal .ar-year {
+    transform: translateX(20px);
+  }
+  .ar-item:nth-child(even).reveal .ar-year {
+    transform: translateX(-20px);
+  }
+  .ar-item.reveal.is-in .ar-year {
+    transform: none;
+  }
+
+  .ar-year {
+    font-size: clamp(3.4rem, 5vw, 5.2rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ar-node {
+    transform: scale(1);
+    transition: none;
+  }
+  .ar-item.reveal .ar-year {
+    opacity: 1;
+    transform: none;
+  }
+  .ar-spine-fill,
+  .ar-sticky-thumb {
+    transition: none;
+  }
+}

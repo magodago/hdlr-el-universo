@@ -6,14 +6,17 @@ import { Entrada } from './experiences/Entrada';
 import { Perfil } from './experiences/Perfil';
 import { Mapa } from './experiences/Mapa';
 import { Proximamente } from './experiences/Proximamente';
+import { SoundToggle } from './lib/SoundToggle';
 import { ROUTES, useRoute, useScrollReset } from './lib/router';
 import { useRevealOnScroll } from './lib/useReveal';
 import { trackEvent } from './lib/trackEvent';
 
 const TITLES: Record<string, string> = {
   [ROUTES.entrada]: 'HDLR - El Universo',
-  [ROUTES.perfil]: 'Perfil · HDLR - El Universo',
+  [ROUTES.perfil]: 'Mi ruina · HDLR - El Universo',
   [ROUTES.mapa]: 'Mapa · HDLR - El Universo',
+  [ROUTES.live]: 'Live · HDLR - El Universo',
+  [ROUTES.archivo]: 'Tu historia · HDLR - El Universo',
 };
 
 function View({ path }: { path: string }) {
@@ -53,6 +56,7 @@ export default function App() {
         <View path={path} />
       </main>
       <Footer currentPath={path} />
+      <SoundToggle />
     </div>
   );
 }

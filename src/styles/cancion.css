@@ -1,0 +1,496 @@
+/* ------------------------------------------------------------------
+   CANCION (experiencia 04)
+   Cuentame tu historia -> banda sonora.
+   Un formulario que no parece un formulario: papel de estudio, ondas de
+   sonido y una ficha que se abre como una caratula. Movil primero.
+   ------------------------------------------------------------------ */
+
+/* --- Cinta de onda: motivo grafico de la experiencia ------------------ */
+
+.cn-wave {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 34px;
+  overflow: hidden;
+}
+
+.cn-wave > span {
+  display: block;
+  width: 3px;
+  border-radius: 2px;
+  background: linear-gradient(180deg, var(--color-blood-bright), var(--color-blood));
+  transform-origin: bottom center;
+  animation: cn-wave 1.8s ease-in-out infinite;
+  opacity: 0.85;
+}
+
+@keyframes cn-wave {
+  0%,
+  100% {
+    transform: scaleY(0.28);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+/* --- Bloque de escritura --------------------------------------------- */
+
+.cn-desk {
+  position: relative;
+  border: 1px solid var(--color-steel);
+  background:
+    linear-gradient(180deg, rgba(196, 22, 29, 0.06), rgba(5, 5, 6, 0) 42%),
+    linear-gradient(180deg, var(--color-carbon), var(--color-ink));
+  padding: 1.1rem;
+}
+
+@media (min-width: 640px) {
+  .cn-desk {
+    padding: 1.75rem;
+  }
+}
+
+.cn-desk::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(180deg, var(--color-blood-bright), rgba(143, 17, 22, 0));
+}
+
+.cn-label {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--color-smoke);
+}
+
+.cn-textarea {
+  display: block;
+  width: 100%;
+  min-height: 168px;
+  margin-top: 0.75rem;
+  padding: 0.95rem 1rem;
+  /* 16px clavados: por debajo de eso, iOS hace zoom al enfocar. */
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--color-bone);
+  background-color: #0c0c0f;
+  border: 1px solid var(--color-graphite);
+  border-radius: 0;
+  resize: vertical;
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease,
+    background-color 0.3s ease;
+}
+
+.cn-textarea::placeholder {
+  color: #6f6f78;
+}
+
+.cn-textarea:focus {
+  outline: none;
+  border-color: var(--color-blood-bright);
+  background-color: #101014;
+  box-shadow: 0 0 0 3px rgba(143, 17, 22, 0.28);
+}
+
+.cn-desk-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1rem;
+  margin-top: 1rem;
+}
+
+.cn-counter {
+  margin-left: auto;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-ash);
+}
+
+.cn-hint {
+  margin-top: 0.85rem;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--color-ash);
+}
+
+/* --- Ejemplos -------------------------------------------------------- */
+
+.cn-example {
+  display: block;
+  width: 100%;
+  text-align: left;
+  border: 1px dashed var(--color-graphite);
+  background: transparent;
+  padding: 0.7rem 0.85rem;
+  font-family: var(--font-body);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--color-smoke);
+  transition:
+    border-color 0.3s ease,
+    color 0.3s ease,
+    background-color 0.3s ease;
+}
+
+.cn-example:hover,
+.cn-example:focus-visible {
+  border-color: rgba(196, 22, 29, 0.7);
+  color: var(--color-bone);
+  background: rgba(143, 17, 22, 0.1);
+}
+
+/* --- Etiquetas detectadas -------------------------------------------- */
+
+.cn-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.cn-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  border: 1px solid var(--color-graphite);
+  padding: 0.28rem 0.55rem;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-smoke);
+}
+
+.cn-chip::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--color-ash);
+}
+
+.cn-chip[data-dim='emocion'] {
+  border-color: rgba(196, 22, 29, 0.55);
+  color: var(--color-bone);
+}
+.cn-chip[data-dim='emocion']::before {
+  background: var(--color-blood-bright);
+}
+
+.cn-chip[data-dim='contexto']::before {
+  background: var(--color-smoke);
+}
+
+.cn-chip[data-dim='tema'] {
+  border-style: dashed;
+}
+.cn-chip[data-dim='tema']::before {
+  background: transparent;
+  border: 1px solid var(--color-smoke);
+}
+
+.cn-chip[data-heavy='true'] {
+  box-shadow: inset 0 0 0 1px rgba(196, 22, 29, 0.35);
+}
+
+/* --- Panel de lectura del texto -------------------------------------- */
+
+.cn-readout {
+  border: 1px solid var(--color-steel);
+  background: var(--color-ink);
+  padding: 1rem;
+}
+
+@media (min-width: 640px) {
+  .cn-readout {
+    padding: 1.25rem;
+  }
+}
+
+.cn-intensidad {
+  display: inline-flex;
+  align-items: stretch;
+  border: 1px solid var(--color-graphite);
+}
+
+.cn-intensidad > span {
+  width: 22px;
+  height: 8px;
+  background: var(--color-graphite);
+}
+
+.cn-intensidad > span[data-on='true'] {
+  background: var(--color-blood-bright);
+}
+
+/* --- Ficha del resultado --------------------------------------------- */
+
+.cn-result {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(196, 22, 29, 0.5);
+  background:
+    radial-gradient(120% 90% at 88% 0%, rgba(143, 17, 22, 0.32) 0%, rgba(5, 5, 6, 0) 60%),
+    linear-gradient(180deg, var(--color-carbon), var(--color-void));
+  padding: 1.15rem 1.1rem 1.35rem;
+  animation: cn-open 0.7s var(--ease-brut) both;
+}
+
+@media (min-width: 640px) {
+  .cn-result {
+    padding: 2rem 1.9rem 2.1rem;
+  }
+}
+
+@keyframes cn-open {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 22px, 0);
+    clip-path: inset(0 0 100% 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+.cn-result::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    180deg,
+    rgba(243, 241, 238, 0.03) 0 1px,
+    rgba(5, 5, 6, 0) 1px 4px
+  );
+  opacity: 0.7;
+}
+
+.cn-eyebrow {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--color-blood-ink);
+}
+
+.cn-song {
+  margin: 0.9rem 0 0;
+  font-family: var(--font-display);
+  font-size: clamp(2.1rem, 10vw, 4rem);
+  line-height: 0.92;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: var(--color-bone);
+  text-wrap: balance;
+}
+
+.cn-reason {
+  margin-top: 0.9rem;
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--color-smoke);
+  max-width: 62ch;
+}
+
+@media (min-width: 640px) {
+  .cn-reason {
+    font-size: 16px;
+  }
+}
+
+.cn-meta {
+  display: grid;
+  gap: 1px;
+  margin-top: 1.2rem;
+  border: 1px solid var(--color-steel);
+  background: var(--color-steel);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.cn-meta > div {
+  background: #0d0d10;
+  padding: 0.7rem 0.8rem;
+}
+
+.cn-meta dt {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-ash);
+}
+
+.cn-meta dd {
+  margin-top: 0.25rem;
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--color-bone);
+}
+
+.cn-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 1.4rem;
+}
+
+.cn-listen {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  min-height: 50px;
+  padding: 0 1.15rem;
+  border: 1px solid var(--color-bone);
+  background: var(--color-bone);
+  color: #08080a;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  transition:
+    transform 0.3s var(--ease-brut),
+    box-shadow 0.3s var(--ease-brut),
+    background-color 0.3s var(--ease-brut);
+}
+
+.cn-listen:hover,
+.cn-listen:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px -18px rgba(243, 241, 238, 0.7);
+}
+
+.cn-listen[data-brand='youtube'] {
+  background: var(--color-blood);
+  border-color: var(--color-blood-bright);
+  color: var(--color-bone);
+}
+
+.cn-listen[data-brand='youtube']:hover,
+.cn-listen[data-brand='youtube']:focus-visible {
+  box-shadow: 0 14px 30px -16px rgba(196, 22, 29, 0.9);
+}
+
+.cn-listen .cn-listen-note {
+  display: block;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  opacity: 0.75;
+  text-transform: uppercase;
+}
+
+/* --- Alternativas ---------------------------------------------------- */
+
+.cn-alt {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  border: 1px solid var(--color-steel);
+  background: var(--color-ink);
+  padding: 0.85rem 1rem;
+  text-align: left;
+  transition:
+    border-color 0.3s ease,
+    transform 0.3s var(--ease-brut),
+    background-color 0.3s ease;
+}
+
+.cn-alt:hover,
+.cn-alt:focus-visible {
+  border-color: rgba(196, 22, 29, 0.6);
+  background: var(--color-carbon);
+  transform: translate3d(3px, 0, 0);
+}
+
+.cn-alt-rank {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  line-height: 1;
+  color: var(--color-graphite);
+}
+
+.cn-alt[data-strong='true'] .cn-alt-rank {
+  color: var(--color-blood-ink);
+}
+
+.cn-alt-title {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--color-bone);
+  line-height: 1.1;
+}
+
+.cn-alt-sub {
+  margin-top: 0.2rem;
+  font-size: 12px;
+  color: var(--color-ash);
+}
+
+.cn-alt-go {
+  margin-left: auto;
+  flex-shrink: 0;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-smoke);
+}
+
+/* --- Aviso honesto --------------------------------------------------- */
+
+.cn-empty {
+  border: 1px solid var(--color-steel);
+  border-left: 3px solid var(--color-blood-bright);
+  background: var(--color-ink);
+  padding: 1.15rem 1.1rem;
+  animation: cn-open 0.5s var(--ease-brut) both;
+}
+
+.cn-empty h3 {
+  font-size: 1.35rem;
+  color: var(--color-bone);
+}
+
+.cn-empty p {
+  margin-top: 0.7rem;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--color-smoke);
+}
+
+/* --- Nota de metodo -------------------------------------------------- */
+
+.cn-method {
+  border-top: 1px solid var(--color-steel);
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--color-ash);
+}

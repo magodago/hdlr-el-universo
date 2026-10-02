@@ -1,9 +1,18 @@
 import { useEffect, useState } from 'react';
-import { EXPERIENCES } from '../data/experiences';
 import { Link, ROUTES } from '../lib/router';
 import { trackEvent } from '../lib/trackEvent';
 
-const PRIMARY = EXPERIENCES.filter((experience) => experience.status === 'listo');
+/**
+ * Cabecera minima. No es un panel de control: es una lista corta de puertas.
+ * HDLR arriba y, debajo, cuatro accesos numerados. El resto del universo
+ * aparece mas adelante.
+ */
+const NAV_ITEMS = [
+  { n: '01', label: 'Tu ruina', to: ROUTES.perfil },
+  { n: '02', label: 'Tu historia', to: ROUTES.archivo },
+  { n: '03', label: 'La ruina', to: ROUTES.mapa },
+  { n: '04', label: 'Live', to: ROUTES.live },
+];
 
 /** Barra de progreso de lectura, atada al scroll. */
 function ScrollProgress() {
@@ -32,10 +41,7 @@ function ScrollProgress() {
 
   return (
     <div className="fixed top-0 left-0 z-[70] h-[2px] w-full bg-transparent" aria-hidden="true">
-      <div
-        className="h-full origin-left bg-blood-bright"
-        style={{ transform: `scaleX(${progress})` }}
-      />
+      <div className="h-full origin-left bg-blood-bright" style={{ transform: `scaleX(${progress})` }} />
     </div>
   );
 }
@@ -59,41 +65,48 @@ export function Nav({ path }: NavProps) {
       <ScrollProgress />
       <header
         className={`fixed inset-x-0 top-0 z-[60] transition-colors duration-500 ${
-          scrolled ? 'border-b border-steel/80 bg-void/88 backdrop-blur-md' : 'border-b border-transparent'
+          scrolled
+            ? 'border-b border-steel/80 bg-void/88 backdrop-blur-md'
+            : 'border-b border-transparent'
         }`}
       >
-        <nav
-          aria-label="Navegación principal"
-          className="mx-auto flex max-w-[1400px] items-center justify-between gap-4 px-4 py-2 sm:px-8"
-        >
-          <Link
-            to={ROUTES.entrada}
-            className="group inline-flex min-h-[44px] items-center gap-2"
-            onClick={() => trackEvent('nav_click', { from: path, to: ROUTES.entrada })}
-          >
-            <span className="font-display text-xl leading-none tracking-[0.06em] text-bone sm:text-2xl">
-              HDLR
-            </span>
-            <span className="hidden font-body text-[10px] font-semibold tracking-[0.34em] text-ash uppercase sm:inline">
-              El Universo
-            </span>
-          </Link>
+        <nav aria-label="Navegación principal" className="mx-auto max-w-[1400px] px-4 py-2 sm:px-8">
+          <div className="flex items-center justify-between gap-4">
+            <Link
+              to={ROUTES.entrada}
+              className="group inline-flex min-h-[44px] items-center gap-2"
+              onClick={() => trackEvent('nav_click', { from: path, to: ROUTES.entrada })}
+            >
+              <span className="font-display text-xl leading-none tracking-[0.06em] text-bone sm:text-2xl">
+                HDLR
+              </span>
+              <span className="hidden font-body text-[10px] font-semibold tracking-[0.34em] text-ash uppercase sm:inline">
+                El Universo
+              </span>
+            </Link>
 
-          <ul className="flex items-center gap-2 overflow-x-auto sm:gap-7">
-            {PRIMARY.map((experience) => {
-              const active = path === experience.slug;
+            <span className="hidden font-body text-[10px] font-semibold tracking-[0.3em] text-ash uppercase sm:block">
+              Explora
+            </span>
+          </div>
+
+          <ul className="nav-row mt-0.5 flex items-center gap-2.5 overflow-x-auto pb-1 sm:gap-6">
+            {NAV_ITEMS.map((item) => {
+              const active = path === item.to;
               return (
-                <li key={experience.slug} className="shrink-0">
+                <li key={item.to} className="shrink-0">
                   <Link
-                    to={experience.slug}
+                    to={item.to}
                     data-active={active}
                     aria-current={active ? 'page' : undefined}
-                    className="nav-link inline-flex min-h-[44px] items-center font-body text-[11px] font-semibold tracking-[0.15em] uppercase sm:text-xs sm:tracking-[0.24em]"
-                    onClick={() => trackEvent('nav_click', { from: path, to: experience.slug })}
+                    className="nav-link inline-flex min-h-[44px] items-center font-body text-[10px] font-semibold tracking-[0.1em] uppercase sm:text-xs sm:tracking-[0.24em]"
+                    onClick={() => {
+                      trackEvent('nav_click', { from: path, to: item.to });
+                    }}
                   >
                     <span className="nav-inner">
-                      <span className="nav-num">{experience.n}</span>
-                      <span className="nav-label ml-1.5">{experience.short}</span>
+                      <span className="nav-num">{item.n}</span>
+                      <span className="nav-label ml-1.5">{item.label}</span>
                     </span>
                   </Link>
                 </li>
