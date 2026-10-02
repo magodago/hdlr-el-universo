@@ -114,27 +114,6 @@ const CIFRAS: { n: string; l: string }[] = [
   { n: '60.000', l: 'en el Metropolitano, 2025' },
 ];
 
-const FUENTES = Array.from(
-  new Map(
-    [
-      { label: 'Natos y Waor: biografía oficial', url: 'https://natosywaor.com/pages/biografia-natos-y-waor' },
-      { label: 'Natos y Waor: Barras Bravas, disco recopilatorio (10/08/2020)', url: 'https://natosywaor.com/pages/barras-bravas' },
-      { label: 'Natos y Waor: blog oficial, Barras Bravas Vol. 28', url: 'https://natosywaor.com/blogs/video/natos-y-waor-budokai-feat-hoke-barras-bravas-vol-28' },
-      { label: 'LOS40: Chatarra, nº1 de YouTube con el Vol. 22 (02/08/2021)', url: 'https://los40.com/los40/2021/08/02/los40urban/1627918915_614128.html' },
-      { label: 'Urban Roosters: 15 aniversario ante 60.000 personas', url: 'https://urbanroosters.news/natos-y-waor-celebran-su-15o-aniversario-ante-60-000-personas-en-una-noche-historica-para-el-rap-espanol/' },
-      { label: 'Vozpópuli: Hijos de la Ruina, dos noches en el Movistar Arena', url: 'https://www.vozpopuli.com/altavoz/cultura/hijos-de-la-ruina-arrasa-el-movistar-arena-con-40000-personas-en-dos-noches-y-deja-claro-que-madrid-sigue-siendo-suyo.html' },
-    ].map((item) => [item.url, item]),
-  ).values(),
-);
-
-const HOST = (url: string) => {
-  try {
-    return new URL(url).hostname.replace('www.', '');
-  } catch {
-    return url;
-  }
-};
-
 /* ------------------------------------------------------------------ */
 /* Carnet de la ruina: pieza grafica 1080 x 1920 dibujada en canvas     */
 /* ------------------------------------------------------------------ */
@@ -384,7 +363,7 @@ function drawCarnet(canvas: HTMLCanvasElement, data: CarnetData): void {
   ctx.fillStyle = COL.ash;
   ctx.font = `600 22px ${BODY}`;
   setTracking(ctx, 5);
-  ctx.fillText('SIN FOTO · SIN REGISTRO', photoX, photoY + photoS + 46);
+  ctx.fillText('SIN FOTO', photoX, photoY + photoS + 46);
   setTracking(ctx, 0);
 
   // Columna derecha: socio y nivel de ruina.
@@ -418,11 +397,6 @@ function drawCarnet(canvas: HTMLCanvasElement, data: CarnetData): void {
   ctx.fillStyle = COL.smoke;
   ctx.font = `400 24px ${BODY}`;
   setTracking(ctx, 3);
-  wrap(ctx, 'SE GENERA EN TU DISPOSITIVO · NO VIAJA A NINGÚN SERVIDOR', CONTENT_W - 80)
-    .slice(0, 2)
-    .forEach((line, index) => {
-      ctx.fillText(line, LEFT + 40, boxY + boxH - 72 + index * 32);
-    });
   setTracking(ctx, 0);
 
   /* --- Veredicto --- */
@@ -618,9 +592,8 @@ function CarnetPanel({ result }: CarnetPanelProps) {
         <p className="cm-carnet-kicker">Pieza lista</p>
         <h3 className="cm-carnet-h">Tu carnet de la ruina</h3>
         <p className="cm-carnet-p">
-          Un carnet vertical de 1080 × 1920, dibujado aquí mismo, en tu dispositivo. Lleva tu
-          nivel de ruina, tus dimensiones, el año y un número de socio único. Ninguna imagen
-          sube a internet: se compone delante de ti.
+          Un carnet para llevar en el móvil: tu nivel de ruina, tus dimensiones, el año y un número
+          de socio único. Listo para descargar o compartir.
         </p>
 
         <ul className="cm-carnet-data">
@@ -821,37 +794,10 @@ export function Comunidad() {
 
           <div className="cm-pull reveal">
             <p>
-              En 2023, El País lo situó como el grupo más popular del hip hop español y cifró en
-              45.000 las entradas de sus tres WiZink Center. Poco después llegó una noche de 60.000
+              En 2023 se les situó como el grupo más popular del hip hop español, con 45.000
+              entradas en tres noches del WiZink Center. Poco después llegó una noche de 60.000
               personas en un estadio.
             </p>
-            <a
-              className="cm-fact-src link-sweep"
-              href="https://elpais.com/cultura/2023-12-03/natos-y-waor-rapean-la-cronica-de-una-juventud-extraviada-y-llenan-tres-wizink.html"
-              target="_blank"
-              rel="noreferrer noopener"
-            >
-              Fuente: El País ↗
-            </a>
-          </div>
-
-          <div className="cm-sources reveal">
-            <p className="cm-sources-h">Fuentes de esta sección</p>
-            <ul>
-              {FUENTES.map((fuente) => (
-                <li key={fuente.url}>
-                  <a
-                    className="link-sweep"
-                    href={fuente.url}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                  >
-                    {fuente.label}
-                    <span className="cm-src-host"> · {HOST(fuente.url)}</span>
-                  </a>
-                </li>
-              ))}
-            </ul>
           </div>
         </div>
       </section>

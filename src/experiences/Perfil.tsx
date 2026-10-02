@@ -3,7 +3,7 @@ import { Badge } from '../components/Badge';
 import { SectionHeading } from '../components/SectionHeading';
 import { TrackPreview, tienePreview } from '../components/TrackPreview';
 import '../styles/perfil.css';
-import { members, timeline, volumes, counts, allSources, catalog, tourName } from '../data';
+import { members, timeline, volumes, counts, catalog, tourName } from '../data';
 import { getActiveEngine, type RecommendationRequest, type RecommendationResult } from '../lib/ai';
 import { trackEvent } from '../lib/trackEvent';
 import { soundManager } from '../lib/sound';
@@ -335,8 +335,7 @@ function RuinaCardPanel({ result }: { result: RuinaResult }) {
       </div>
 
       <p className="ruina-card-note" role="status">
-        {status ||
-          'Se genera en tu dispositivo a 1080 por 1920. No se sube a ningún servidor y no se guarda nada.'}
+        {status || 'Tu tarjeta, lista para guardar y compartir.'}
       </p>
     </div>
   );
@@ -480,20 +479,7 @@ function VolumeBlock({ volumeId, defaultOpen }: { volumeId: string; defaultOpen:
         <div className="flex flex-wrap items-center gap-3 border-t border-steel px-4 py-4 sm:px-6">
           <Badge kind="real" />
           <span className="text-xs leading-relaxed text-ash">
-            Lista y duraciones transcritas de tienda oficial.{' '}
-            {volume.sources.map((source, index) => (
-              <span key={source}>
-                {index > 0 ? ' · ' : ''}
-                <a
-                  href={source}
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  className="link-sweep text-smoke hover:text-bone"
-                >
-                  {new URL(source).hostname.replace('www.', '')}
-                </a>
-              </span>
-            ))}
+            Cortes y duraciones de la entrega.
           </span>
         </div>
       </div>
@@ -625,9 +611,7 @@ function Recommender() {
       </ul>
 
       <p className="mt-5 text-xs leading-relaxed text-ash">
-        Puntuación calculada en tu dispositivo a partir de campos verificables: año, volumen,
-        duración, colaboraciones y condición de adelanto. No se guarda ningún perfil de usuario y no
-        se envía nada a ningún servidor.
+        La puntuación sale del catálogo: año, entrega, duración, colaboraciones y adelantos.
       </p>
     </div>
   );
@@ -731,28 +715,14 @@ function Archive() {
 
       <section className="border-y border-steel bg-ink px-4 py-20 sm:px-8 sm:py-24">
         <div className="mx-auto max-w-[1400px]">
-          <SectionHeading index="03 · Motor" title="Recomendación sin servidor" />
+          <SectionHeading index="03 · Recomendación" title="¿Por dónde sigo?" />
           <div className="mt-10 grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:items-start">
             <Recommender />
             <div className="reveal space-y-6">
               <p className="text-sm leading-relaxed text-smoke">
-                La capa de recomendación está separada de la interfaz. Hoy funciona con un motor
-                local que solo lee campos verificables del catálogo.
+                Cuatro preguntas y una propuesta: por dónde seguir dentro del catálogo, entrega a
+                entrega y corte a corte. Cambia lo que te apetezca y la recomendación se rehace.
               </p>
-              <ul className="divide-y divide-steel border-y border-steel">
-                {[
-                  { k: 'Sin API de IA', v: 'Cero llamadas a modelos. El cálculo es aritmética local.' },
-                  { k: 'Sin claves', v: 'El frontend no lleva ninguna variable de entorno con secreto.' },
-                  { k: 'Sin perfil', v: 'No se guarda historial ni identificadores de usuario.' },
-                ].map((item) => (
-                  <li key={item.k} className="py-4">
-                    <p className="font-display text-sm tracking-[0.16em] text-bone uppercase">
-                      {item.k}
-                    </p>
-                    <p className="mt-1 text-sm text-smoke">{item.v}</p>
-                  </li>
-                ))}
-              </ul>
             </div>
           </div>
         </div>
@@ -792,32 +762,6 @@ function Archive() {
               </li>
             ))}
           </ol>
-        </div>
-      </section>
-
-      <section className="border-t border-steel bg-ink px-4 py-16 sm:px-8">
-        <div className="mx-auto max-w-[1400px]">
-          <h2 className="font-display text-2xl tracking-[0.04em] text-bone sm:text-3xl">
-            Fuentes utilizadas
-          </h2>
-          <p className="mt-3 max-w-2xl text-sm leading-relaxed text-smoke">
-            Todo lo que aparece como REAL en esta experiencia sale de estos enlaces. Ninguna cifra,
-            fecha, canción, letra ni colaboración se ha inventado.
-          </p>
-          <ul className="mt-8 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-            {allSources.map((source) => (
-              <li key={source.url}>
-                <a
-                  href={source.url}
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  className="link-sweep block py-1 text-xs text-smoke hover:text-bone"
-                >
-                  {source.label}
-                </a>
-              </li>
-            ))}
-          </ul>
         </div>
       </section>
     </div>
