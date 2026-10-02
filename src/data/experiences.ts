@@ -47,7 +47,7 @@ export const EXPERIENCES: ExperienceMeta[] = [
     short: 'Canción',
     description:
       'Ficha por corte: volumen, año, duracion, colaboraciones y contexto. Sin letras ni audio.',
-    status: 'proxima',
+    status: 'listo',
   },
   {
     n: '05',
@@ -56,7 +56,7 @@ export const EXPERIENCES: ExperienceMeta[] = [
     short: 'Archivo',
     description:
       'Cronologia completa, material de contexto y la serie Barras Bravas, documentada entrega a entrega.',
-    status: 'proxima',
+    status: 'listo',
   },
   {
     n: '06',
@@ -64,7 +64,7 @@ export const EXPERIENCES: ExperienceMeta[] = [
     title: 'Live',
     short: 'Live',
     description: 'Los directos: que se ha tocado y como suena el catalogo sobre un escenario.',
-    status: 'proxima',
+    status: 'listo',
   },
   {
     n: '07',

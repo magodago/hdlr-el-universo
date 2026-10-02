@@ -604,7 +604,15 @@ export function recommendForStory(
   const results = scored
     .filter((match): match is NonNullable<typeof match> => match !== null)
     .filter((match) => match.score >= MIN_SCORE)
-    .sort((a, b) => b.score - a.score || a.year - b.year || a.title.localeCompare(b.title))
+    .sort(
+      (a, b) =>
+        b.score - a.score ||
+        // A igualdad de puntuacion, gana el corte que recoge mas etiquetas
+        // de la historia: asi la explicacion cubre mas de lo que se ha leido.
+        b.matchedTags.length - a.matchedTags.length ||
+        a.year - b.year ||
+        a.title.localeCompare(b.title),
+    )
     .slice(0, limit);
 
   return results.map((match) => ({

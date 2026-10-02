@@ -108,6 +108,14 @@ export function Cancion() {
   const main = matches.find((match) => match.trackId === pickedId) ?? matches[0];
   const alternatives = matches.filter((match) => match.trackId !== main?.trackId);
 
+  // Etiquetas que el texto ha dado pero que el corte elegido no recoge. Se usan
+  // para decir con claridad que parte de la historia se queda sin cancion, en vez
+  // de presentar una coincidencia floja como si fuera redonda.
+  const uncoveredTags =
+    reading && main
+      ? reading.tags.filter((tag) => !main.matchedTags.some((matched) => matched.id === tag.id))
+      : [];
+
   const grouped = useMemo(() => {
     if (!reading) return [];
     return (['emocion', 'contexto', 'tema'] as const)
@@ -283,6 +291,19 @@ export function Cancion() {
               </p>
               <p className="cn-reason">{main.reason}</p>
 
+              {!main.strong || uncoveredTags.length > 0 ? (
+                <p className="cn-confidence">
+                  {!main.strong
+                    ? 'Coincidencia ajustada: ningún corte del catálogo recoge tu historia entera, así que este es el que más se acerca. '
+                    : ''}
+                  {uncoveredTags.length > 0
+                    ? `En el catálogo no hay ningún corte que recoja ${uncoveredTags
+                        .map((tag) => tag.chip.toLowerCase())
+                        .join(', ')}: prefiero decírtelo antes que forzar otra lectura.`
+                    : ''}
+                </p>
+              ) : null}
+
               <dl className="cn-meta">
                 <div>
                   <dt>Volumen</dt>
@@ -380,8 +401,10 @@ export function Cancion() {
                         scrollIntoViewSoft(resultRef.current);
                       }}
                     >
-                      <span className="cn-alt-rank" aria-hidden="true">
-                        #{match.matchedTags.length}
+                      <span className="cn-alt-rank">
+                        {match.matchedTags.length === 1
+                          ? '1 etiqueta'
+                          : `${match.matchedTags.length} etiquetas`}
                       </span>
                       <span>
                         <span className="cn-alt-title block">{match.title}</span>
@@ -432,8 +455,11 @@ export function Cancion() {
             Cómo funciona: el texto se analiza aquí mismo, en tu navegador, y no se envía a ningún
             servidor. El motor no lee ni reproduce letras (este proyecto no aloja letras de nadie):
             compara las etiquetas que saca de tu texto con el título del corte y con sus datos
-            publicados. Los enlaces a Spotify y YouTube son enlaces comprobados en fuentes oficiales;
-            si un corte no tiene enlace propio verificado, sencillamente no aparece el botón.
+            publicados. Los enlaces a Spotify y YouTube no salen de la ficha de discografía (esa
+            ficha no guarda direcciones): vienen de un registro aparte de enlaces comprobados uno a
+            uno en fuentes oficiales, {VERIFIED_LINK_COUNT} cortes con enlace y {VERIFIED_VIDEO_COUNT}{' '}
+            con vídeo propio. Si un corte no tiene enlace verificado, sencillamente no aparece el
+            botón.
           </p>
         </div>
       </section>

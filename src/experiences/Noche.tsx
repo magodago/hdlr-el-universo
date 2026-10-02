@@ -228,10 +228,10 @@ function paint(
   ctx.fillStyle = COLORS.bone;
   ctx.fillText('ESTUVISTE', margin, 1150);
 
-  const aquiSize = fitFont(ctx, 'AQUI', 214, bounds.width * 0.52);
+  const aquiSize = fitFont(ctx, 'AQUÍ', 214, bounds.width * 0.52);
   ctx.font = `400 ${aquiSize}px ${FONT_DISPLAY}`;
   ctx.fillStyle = COLORS.bloodBright;
-  ctx.fillText('AQUI', margin, 1350);
+  ctx.fillText('AQUÍ', margin, 1350);
 
   ctx.font = `500 30px ${FONT_BODY}`;
   ctx.fillStyle = COLORS.smoke;
@@ -248,7 +248,7 @@ function paint(
   ctx.fillStyle = COLORS.ash;
   drawTracked(ctx, 'N. DE NOCHE', margin, 1580, 8);
 
-  ctx.font = `800 24px ${FONT_BODY}`;
+  ctx.font = `800 30px ${FONT_BODY}`;
   ctx.fillStyle = COLORS.bloodInk;
   drawTracked(ctx, 'DEMO', CARD_W - margin, 1580, 6, 'right');
 
@@ -261,12 +261,12 @@ function paint(
 
   ctx.font = `600 24px ${FONT_BODY}`;
   ctx.fillStyle = COLORS.ash;
-  ctx.fillText('Codigo simulado: esta demo no genera entradas reales.', margin, 1852);
+  ctx.fillText('Código simulado: esta demo no genera entradas reales.', margin, 1828);
 
   ctx.font = `700 24px ${FONT_BODY}`;
   ctx.fillStyle = 'rgba(143, 143, 152, 0.85)';
-  drawTracked(ctx, 'HDLR EL UNIVERSO', margin, 1904, 8);
-  drawTracked(ctx, dateLabel, CARD_W - margin, 1904, 6, 'right');
+  drawTracked(ctx, 'HDLR EL UNIVERSO', margin, 1856, 8);
+  drawTracked(ctx, dateLabel, CARD_W - margin, 1856, 6, 'right');
 }
 
 export function Noche({ code, city, dateLabel, onBack }: NocheProps) {

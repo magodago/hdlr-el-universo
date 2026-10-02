@@ -5,6 +5,9 @@ import { Footer } from './components/Footer';
 import { Entrada } from './experiences/Entrada';
 import { Perfil } from './experiences/Perfil';
 import { Mapa } from './experiences/Mapa';
+import { Cancion } from './experiences/Cancion';
+import { Archivo } from './experiences/Archivo';
+import { Live } from './experiences/Live';
 import { Proximamente } from './experiences/Proximamente';
 import { SoundToggle } from './lib/SoundToggle';
 import { ROUTES, useRoute, useScrollReset } from './lib/router';
@@ -15,8 +18,9 @@ const TITLES: Record<string, string> = {
   [ROUTES.entrada]: 'HDLR - El Universo',
   [ROUTES.perfil]: 'Mi ruina · HDLR - El Universo',
   [ROUTES.mapa]: 'Mapa · HDLR - El Universo',
+  [ROUTES.cancion]: 'Tu historia · HDLR - El Universo',
+  [ROUTES.archivo]: 'Archivo · HDLR - El Universo',
   [ROUTES.live]: 'Live · HDLR - El Universo',
-  [ROUTES.archivo]: 'Tu historia · HDLR - El Universo',
 };
 
 function View({ path }: { path: string }) {
@@ -27,6 +31,12 @@ function View({ path }: { path: string }) {
       return <Perfil />;
     case ROUTES.mapa:
       return <Mapa />;
+    case ROUTES.cancion:
+      return <Cancion />;
+    case ROUTES.archivo:
+      return <Archivo />;
+    case ROUTES.live:
+      return <Live />;
     default:
       return <Proximamente path={path} />;
   }

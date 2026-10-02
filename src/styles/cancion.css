@@ -312,6 +312,16 @@
   max-width: 62ch;
 }
 
+/* Aviso honesto cuando la coincidencia es floja o deja etiquetas fuera. */
+.cn-confidence {
+  margin-top: 0.9rem;
+  border-left: 2px solid var(--color-blood-bright);
+  padding-left: 0.8rem;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--color-ash);
+}
+
 @media (min-width: 640px) {
   .cn-reason {
     font-size: 16px;
@@ -357,6 +367,7 @@
 
 .cn-listen {
   display: inline-flex;
+  flex: 1 1 46%;
   align-items: center;
   justify-content: center;
   gap: 0.55rem;
@@ -427,10 +438,15 @@
 }
 
 .cn-alt-rank {
-  font-family: var(--font-display);
-  font-size: 1.35rem;
-  line-height: 1;
-  color: var(--color-graphite);
+  flex-shrink: 0;
+  min-width: 4.6rem;
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  line-height: 1.25;
+  text-transform: uppercase;
+  color: var(--color-ash);
 }
 
 .cn-alt[data-strong='true'] .cn-alt-rank {

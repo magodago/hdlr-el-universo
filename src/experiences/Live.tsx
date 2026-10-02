@@ -49,6 +49,13 @@ function pad(value: number): string {
   return value.toString().padStart(2, '0');
 }
 
+/** Fecha corta dd.mm.aa a partir del dateISO del concierto. Nunca se escribe a mano. */
+function compactDate(dateISO: string): string {
+  const [year, month, day] = dateISO.split('-');
+  if (!year || !month || !day) return '';
+  return `${day}.${month}.${year.slice(2)}`;
+}
+
 /** Codigo de noche. Es un dato simulado de la demo y se marca como tal. */
 function makeNightCode(): string {
   const alphabet = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
@@ -161,7 +168,7 @@ export function Live() {
           <div className="lv-gate-inner">
             <p className="lv-gate-kicker rise">HDLR Live</p>
             <h1 className="lv-gate-city rise">{concert.city}</h1>
-            <p className="lv-gate-date rise">17.10.26</p>
+            <p className="lv-gate-date rise">{compactDate(dateISO)}</p>
             <p className="lv-gate-question rise">
               ¿Vienes a <em>la ruina</em>?
             </p>
@@ -206,7 +213,7 @@ export function Live() {
 
               <p className="lv-stage-city">{concert.city}</p>
               <p className="lv-stage-sub">
-                17.10.26 · {concert.dateLabel}
+                {compactDate(dateISO)} · {concert.dateLabel}
               </p>
 
               <div className="lv-eq" aria-hidden="true">
@@ -315,7 +322,7 @@ export function Live() {
           </section>
 
           <Marquee
-            items={[concert.city, '17.10.26', 'HDLR Live', 'Hijos de la Ruina', 'Noche cerrada']}
+            items={[concert.city, compactDate(dateISO), 'HDLR Live', 'Hijos de la Ruina', 'Noche cerrada']}
             className="border-y border-blood/40 bg-void"
           />
 
