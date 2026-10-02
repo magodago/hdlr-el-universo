@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, ROUTES } from '../lib/router';
 import { trackEvent } from '../lib/trackEvent';
+import logoNav from '../assets/logo/logo-hdlr-128.png';
 
 /**
  * Cabecera minima. No es un panel de control: es una lista corta de puertas.
@@ -74,9 +75,10 @@ export function Nav({ path }: NavProps) {
           <div className="flex items-center justify-between gap-4">
             <Link
               to={ROUTES.entrada}
-              className="group inline-flex min-h-[44px] items-center gap-2"
+              className="nav-brand group inline-flex min-h-[44px] items-center gap-2"
               onClick={() => trackEvent('nav_click', { from: path, to: ROUTES.entrada })}
             >
+              <img src={logoNav} alt="" aria-hidden="true" className="logo-hdlr nav-logo" />
               <span className="font-display text-xl leading-none tracking-[0.06em] text-bone sm:text-2xl">
                 HDLR
               </span>

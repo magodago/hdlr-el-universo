@@ -4,6 +4,8 @@ import { Marquee } from '../components/Marquee';
 import { Link, ROUTES } from '../lib/router';
 import { trackEvent } from '../lib/trackEvent';
 import { soundManager } from '../lib/sound';
+import logoHdlr from '../assets/logo/logo-hdlr.png';
+import '../styles/logo.css';
 
 /**
  * Experiencia 01. Entrada.
@@ -52,6 +54,11 @@ function Gate({ step, onSkip, onEnter }: GateProps) {
       <div className="cine-grain" aria-hidden="true" />
 
       <div className="cine-gate-stack">
+        <img
+          src={logoHdlr}
+          alt="Emblema de Hijos de la Ruina"
+          className="logo-hdlr gate-logo"
+        />
         <h1 className={`cine-line cine-hdlr${step >= 0 ? ' is-on' : ''}`}>HDLR</h1>
         <p className={`cine-line cine-sub${step >= 1 ? ' is-on' : ''}`}>El Universo</p>
         <p className={`cine-line cine-phrase${step >= 2 ? ' is-on' : ''}`}>
@@ -84,7 +91,7 @@ function Gate({ step, onSkip, onEnter }: GateProps) {
               />
             </svg>
           </button>
-          <p className="cine-fine">Sin registro, sin cookies, sin datos personales</p>
+          <p className="cine-fine">Natos, Waor y Recycled J · 2012—2026</p>
         </div>
       </div>
 
@@ -169,8 +176,15 @@ export function Entrada() {
       <section className="interior" aria-labelledby="entrada-titulo">
         <div className="tech-grid absolute inset-0 opacity-40" aria-hidden="true" />
         <div className="interior-glow" aria-hidden="true" />
+        <img src={logoHdlr} alt="" aria-hidden="true" className="interior-watermark" />
 
         <div className="relative z-10 mx-auto flex min-h-[calc(100svh-3.25rem)] w-full max-w-[1080px] flex-col justify-center px-5 py-24 sm:px-8">
+          <img
+            src={logoHdlr}
+            alt=""
+            aria-hidden="true"
+            className="logo-hdlr interior-logo"
+          />
           <p className="interior-kicker">El universo de Hijos de la Ruina</p>
           <h1
             id="entrada-titulo"
@@ -185,7 +199,7 @@ export function Entrada() {
             Empieza por lo tuyo o abre cualquiera de las puertas que tienes arriba.
           </p>
 
-          <div className="fade-in mt-10">
+          <div className="fade-in mt-10 flex flex-wrap gap-3">
             <Link
               to={ROUTES.perfil}
               className="interior-cta"
@@ -212,9 +226,21 @@ export function Entrada() {
                 />
               </svg>
             </Link>
+
+            <Link
+              to={ROUTES.cancion}
+              className="interior-cta"
+              onClick={() => {
+                soundManager.play('click');
+                trackEvent('cta_click', { id: 'entrada_a_catalogo', to: ROUTES.cancion });
+              }}
+            >
+              <span className="interior-cta-num">04</span>
+              <span className="interior-cta-label">Los 39 cortes</span>
+            </Link>
           </div>
 
-          <p className="interior-fine">Proyecto de homenaje. Sin ánimo de lucro y sin contenido protegido.</p>
+          <p className="interior-fine">Hijos de la Ruina es un proyecto de Natos, Waor y Recycled J. El interruptor Sonido, arriba a la derecha, pone «Hijos de la ruina»: el fragmento oficial del Vol. 1.</p>
         </div>
 
         <Marquee items={MARQUEE_ITEMS} className="relative z-10" />

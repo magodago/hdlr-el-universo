@@ -52,8 +52,7 @@ export function Footer({ currentPath }: FooterProps) {
 
         <div className="mt-14 flex flex-col gap-4 border-t border-steel pt-6 sm:flex-row sm:items-center sm:justify-between">
           <p className="font-body text-xs tracking-[0.16em] text-ash uppercase">
-            HDLR, El Universo. Proyecto personal. Sin cookies, sin analítica de terceros, sin
-            registro.
+            HDLR, El Universo. Un recorrido por el proyecto de Natos, Waor y Recycled J.
           </p>
           {currentPath !== ROUTES.entrada ? (
             <Link
@@ -64,11 +63,6 @@ export function Footer({ currentPath }: FooterProps) {
             </Link>
           ) : null}
         </div>
-        <p className="mt-4 max-w-3xl text-xs leading-relaxed text-ash">
-          Proyecto de homenaje sin ánimo de lucro y sin contenido protegido: no se aloja ni se
-          redistribuye música, letras, portadas ni fotografía de prensa. Todos los datos llevan su
-          fuente citada en la interfaz. Hijos de la Ruina es un proyecto de Natos, Waor y Recycled J.
-        </p>
       </div>
     </footer>
   );

@@ -4,8 +4,10 @@
  * Reglas:
  *  - Apagada por defecto. No suena nada hasta que la persona la enciende.
  *  - Nada de audio automatico: todo sale de un gesto explicito.
- *  - Sin ficheros externos y sin musica protegida: son tonos cortos
- *    sintetizados en el dispositivo con la Web Audio API.
+ *  - Sin ficheros externos y sin musica protegida: tonos cortos y una cama
+ *    sonora sintetizados en el dispositivo con la Web Audio API. Al encender
+ *    el interruptor, ademas, entra el fragmento oficial de «Hijos de la
+ *    ruina» (Vol. 1, cortesia de Deezer) desde entradaTrack.
  *  - La preferencia se recuerda en localStorage (no es una cookie).
  */
 
@@ -47,6 +49,8 @@ class SoundManager {
   private enabled = false;
   private ctx: AudioContext | null = null;
   private listeners = new Set<Listener>();
+  /** Cama sonora de fondo: se enciende y se apaga con el interruptor. */
+  private bedStop: (() => void) | null = null;
 
   constructor() {
     if (typeof window === 'undefined') return;
@@ -79,7 +83,10 @@ class SoundManager {
     }
     if (value) {
       this.ensureContext();
+      this.startBed();
       this.play('click');
+    } else {
+      this.stopBed();
     }
     this.notify();
   }
@@ -112,6 +119,88 @@ class SoundManager {
       osc.start(start);
       osc.stop(start + shape.duration + 0.05);
     }
+  }
+
+  /**
+   * Cama sonora: sub grave con respiracion, quinta suave y lluvia filtrada.
+   * Se sintetiza aqui mismo, asi que no depende de ningun fichero ni de
+   * ninguna direccion que pueda caducar. Suena por debajo de la cancion.
+   */
+  private startBed(): void {
+    const ctx = this.ensureContext();
+    if (!ctx || this.bedStop) return;
+
+    const now = ctx.currentTime;
+    const master = ctx.createGain();
+    master.gain.setValueAtTime(0.0001, now);
+    master.gain.exponentialRampToValueAtTime(0.045, now + 2.5);
+    master.connect(ctx.destination);
+
+    const sub = ctx.createOscillator();
+    sub.type = 'sine';
+    sub.frequency.value = 55;
+    const subGain = ctx.createGain();
+    subGain.gain.value = 1;
+
+    const lfo = ctx.createOscillator();
+    lfo.type = 'sine';
+    lfo.frequency.value = 0.16;
+    const lfoGain = ctx.createGain();
+    lfoGain.gain.value = 0.45;
+    lfo.connect(lfoGain).connect(subGain.gain);
+    sub.connect(subGain).connect(master);
+
+    const quinta = ctx.createOscillator();
+    quinta.type = 'triangle';
+    quinta.frequency.value = 82.5;
+    const quintaGain = ctx.createGain();
+    quintaGain.gain.value = 0.3;
+    quinta.connect(quintaGain).connect(master);
+
+    const samples = Math.floor(ctx.sampleRate * 4);
+    const ruido = ctx.createBuffer(1, samples, ctx.sampleRate);
+    const datos = ruido.getChannelData(0);
+    for (let i = 0; i < samples; i += 1) datos[i] = (Math.random() * 2 - 1) * 0.35;
+    const lluvia = ctx.createBufferSource();
+    lluvia.buffer = ruido;
+    lluvia.loop = true;
+    const filtro = ctx.createBiquadFilter();
+    filtro.type = 'lowpass';
+    filtro.frequency.value = 620;
+    const lluviaGain = ctx.createGain();
+    lluviaGain.gain.value = 0.2;
+    lluvia.connect(filtro).connect(lluviaGain).connect(master);
+
+    sub.start(now);
+    quinta.start(now);
+    lfo.start(now);
+    lluvia.start(now);
+
+    this.bedStop = () => {
+      const t = ctx.currentTime;
+      try {
+        master.gain.cancelScheduledValues(t);
+        master.gain.setValueAtTime(Math.max(master.gain.value, 0.0001), t);
+        master.gain.exponentialRampToValueAtTime(0.0001, t + 1.1);
+      } catch {
+        /* si el contexto ya no acepta rampas, se corta directo */
+      }
+      window.setTimeout(() => {
+        for (const nodo of [sub, quinta, lfo, lluvia]) {
+          try {
+            nodo.stop();
+          } catch {
+            /* ya estaba parado */
+          }
+        }
+      }, 1400);
+    };
+  }
+
+  private stopBed(): void {
+    if (!this.bedStop) return;
+    this.bedStop();
+    this.bedStop = null;
   }
 
   private notify(): void {

@@ -46,7 +46,7 @@ export const EXPERIENCES: ExperienceMeta[] = [
     title: 'Canción',
     short: 'Canción',
     description:
-      'Ficha por corte: volumen, año, duracion, colaboraciones y contexto. Sin letras ni audio.',
+      'Ficha por corte: volumen, año, duracion, colaboraciones y contexto. Los 39, con buscador.',
     status: 'listo',
   },
   {
@@ -72,7 +72,7 @@ export const EXPERIENCES: ExperienceMeta[] = [
     title: 'Noche',
     short: 'Noche',
     description: 'La parte emocional: barrio, fiesta y lo que se cuenta cuando baja el volumen.',
-    status: 'proxima',
+    status: 'listo',
   },
   {
     n: '08',
@@ -80,7 +80,7 @@ export const EXPERIENCES: ExperienceMeta[] = [
     title: 'Comunidad',
     short: 'Comunidad',
     description:
-      'Espacio para quien sigue el proyecto. Sin registro, sin email y sin recoger datos personales.',
+      'Espacio para quien sigue el proyecto: tu cartel de la próxima plaza, ciudad a ciudad.',
     status: 'listo',
   },
 ];

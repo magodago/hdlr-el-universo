@@ -9,6 +9,7 @@ import type { StoryMatch, StoryReading } from '../lib/ai/storyEngine';
 import { Link, ROUTES } from '../lib/router';
 import { trackEvent } from '../lib/trackEvent';
 import '../styles/cancion.css';
+import { CatalogoCompleto } from '../components/CatalogoCompleto';
 
 const EXPERIENCE = findExperience(ROUTES.cancion);
 
@@ -473,6 +474,8 @@ export function Cancion() {
           </p>
         </div>
       </section>
+
+      <CatalogoCompleto />
 
       {/* Cierre */}
       <section className="border-t border-steel bg-ink px-4 py-12 sm:px-8 sm:py-16">
