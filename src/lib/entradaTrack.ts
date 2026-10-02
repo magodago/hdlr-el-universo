@@ -18,13 +18,13 @@ const PREVIEWS = previewsData as unknown as Record<string, FuentePreview>;
 /** Hay audio para la entrada: solo entonces el interruptor enciende de verdad. */
 export function entradaDisponible(): boolean {
   const entrada = PREVIEWS[CLAVE_ENTRADA];
-  return Boolean(entrada?.youtube || entrada?.url);
+  return Boolean(entrada?.url || entrada?.deezerId || entrada?.youtube);
 }
 
 /** Enciende la entrada, en bucle. Devuelve false si no hay nada que poner. */
 export function arrancarEntrada(): boolean {
   const entrada = PREVIEWS[CLAVE_ENTRADA];
-  if (!entrada?.youtube && !entrada?.url) return false;
+  if (!entrada?.url && !entrada?.deezerId && !entrada?.youtube) return false;
   alternar(CLAVE_ENTRADA, entrada, { bucle: true });
   return true;
 }

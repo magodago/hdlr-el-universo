@@ -1,11 +1,14 @@
 /**
  * Reproductor unico de los fragmentos del catalogo.
  *
- * Dos vias, un solo estado, con respaldo automatico:
- *  1. el audio de tienda (Apple Music, estable; o Deezer, que se renueva): es
- *     lo primero que se intenta porque suena en cualquier dispositivo;
- *  2. si ese enlace falla (los de Deezer caducan), entra el VIDEO OFICIAL del
- *     corte en YouTube, que no caduca nunca.
+ * Tres vias, un solo estado, con respaldo automatico:
+ *  1. el enlace de audio guardado (Apple Music), que suena en cualquier aparato;
+ *  2. si falla, se pide el fragmento AL MOMENTO a Deezer por JSONP: la direccion
+ *     se renueva en cada escucha, asi que no caduca nunca. Es la via de los
+ *     cortes que no estan en Apple Music (volumenes 1, 2 y 3);
+ *  3. solo si todo lo anterior falla, el VIDEO OFICIAL del corte en YouTube.
+ *
+ * La ventana de video no aparece en el uso normal: es la ultima red.
  *
  * En toda la aplicacion suena un corte a la vez: al arrancar uno, el anterior
  * se para. Asi nunca suenan dos cosas juntas, ni siquiera en una lista con un
@@ -23,6 +26,8 @@ export interface PreviewState {
 /** Lo que el catalogo sabe de un corte: audio de tienda y video oficial. */
 export interface FuentePreview {
   url?: string;
+  /** Identificador del corte en Deezer, para pedirle el fragmento al momento. */
+  deezerId?: string;
   youtube?: string;
   fuente?: string;
 }
@@ -89,18 +94,108 @@ function elemento(): HTMLAudioElement | null {
   nodo.addEventListener('error', () => {
     // El codigo 1 es una carga abortada al cambiar de pista: no es un fallo real.
     if (nodo.error && nodo.error.code === 1) return;
-    // Enlace caido (los de Deezer caducan): se pasa al video oficial.
+    // Si el fragmento se cae, se reintenta por las vias de audio (Deezer al
+    // momento). A media escucha NO se abre la ventana de video: eso solo pasa
+    // al arrancar un corte, nunca por sorpresa.
     const fuente = fuenteActual;
     const clave = claveIntencionada;
-    if (fuente?.youtube && clave) {
-      arrancaVideo(clave, fuente.youtube, opcionesActual.bucle === true);
+    if (!fuente || !clave) {
+      limpia();
       return;
     }
-    limpia();
+    void arrancaCadena(clave, fuente, opcionesActual.bucle === true, false);
   });
 
   audio = nodo;
   return audio;
+}
+
+/* ------------------------------------------------------------------ */
+/* Via 1b: el fragmento se pide al momento a Deezer (JSONP)            */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Deezer no deja leer su API desde otra web (bloquea CORS), pero si permite
+ * JSONP: se le pide el corte con un <script> y el navegador ejecuta la
+ * respuesta como codigo. Asi la direccion del fragmento llega recien firmada y
+ * nunca esta caducada, que era el fallo de antes. Se guarda diez minutos.
+ */
+const cacheDeezer = new Map<string, { url: string; hasta: number }>();
+let contadorJsonp = 0;
+
+function resolverDeezer(id: string): Promise<string | null> {
+  const guardado = cacheDeezer.get(id);
+  if (guardado && guardado.hasta > Date.now()) return Promise.resolve(guardado.url);
+  return new Promise((resolver) => {
+    const nombre = `__hdlr_preview_${++contadorJsonp}`;
+    const guion = document.createElement('script');
+    let cerrado = false;
+    const terminar = (url: string | null) => {
+      if (cerrado) return;
+      cerrado = true;
+      window.clearTimeout(reloj);
+      guion.remove();
+      try {
+        delete (window as unknown as Record<string, unknown>)[nombre];
+      } catch {
+        (window as unknown as Record<string, unknown>)[nombre] = undefined;
+      }
+      resolver(url);
+    };
+    const reloj = window.setTimeout(() => terminar(null), 6000);
+    (window as unknown as Record<string, unknown>)[nombre] = (datos: unknown) => {
+      const previo =
+        datos && typeof datos === 'object' ? (datos as { preview?: unknown }).preview : undefined;
+      const url = typeof previo === 'string' && previo ? previo : null;
+      if (url) cacheDeezer.set(id, { url, hasta: Date.now() + 10 * 60 * 1000 });
+      terminar(url);
+    };
+    guion.src = `https://api.deezer.com/track/${encodeURIComponent(id)}?output=jsonp&callback=${nombre}`;
+    guion.onerror = () => terminar(null);
+    document.head.appendChild(guion);
+  });
+}
+
+/** Intenta que suene una direccion concreta. Devuelve si lo ha conseguido. */
+function suena(url: string, clave: string, bucle: boolean): Promise<boolean> {
+  const nodo = elemento();
+  if (!nodo) return Promise.resolve(false);
+  nodo.loop = bucle;
+  audioBucle = bucle;
+  nodo.src = url;
+  nodo.currentTime = 0;
+  anuncia({ clave, sonando: false, progreso: 0 });
+  return nodo
+    .play()
+    .then(() => true)
+    .catch((error: unknown) => {
+      if (error instanceof DOMException && error.name === 'AbortError') return true;
+      return false;
+    });
+}
+
+/** Cadena completa: enlace guardado, luego Deezer al momento, luego video. */
+async function arrancaCadena(
+  clave: string,
+  fuente: FuentePreview,
+  bucle: boolean,
+  permiteVideo = true,
+): Promise<void> {
+  if (fuente.url) {
+    const conEnlace = await suena(fuente.url, clave, bucle);
+    if (conEnlace || claveIntencionada !== clave) return;
+  }
+  if (fuente.deezerId) {
+    const url = await resolverDeezer(fuente.deezerId);
+    if (claveIntencionada !== clave) return;
+    if (url) {
+      const conDeezer = await suena(url, clave, bucle);
+      if (conDeezer) return;
+    }
+  }
+  if (claveIntencionada !== clave) return;
+  if (fuente.youtube && permiteVideo) arrancaVideo(clave, fuente.youtube, bucle);
+  else limpia();
 }
 
 /* ------------------------------------------------------------------ */
@@ -271,26 +366,5 @@ export function alternar(clave: string, fuente: FuentePreview, opciones: Opcione
   opcionesActual = opciones;
   claveIntencionada = clave;
 
-  if (fuente.url) {
-    const nodo = elemento();
-    if (!nodo) return;
-    nodo.loop = bucle;
-    audioBucle = bucle;
-    nodo.src = fuente.url;
-    nodo.currentTime = 0;
-    anuncia({ clave, sonando: false, progreso: 0 });
-    void nodo.play().catch((error: unknown) => {
-      if (error instanceof DOMException && error.name === 'AbortError') return;
-      if (fuente.youtube) {
-        arrancaVideo(clave, fuente.youtube, bucle);
-        return;
-      }
-      if (claveIntencionada === clave) limpia();
-    });
-    return;
-  }
-
-  if (fuente.youtube) {
-    arrancaVideo(clave, fuente.youtube, bucle);
-  }
+  void arrancaCadena(clave, fuente, bucle);
 }
