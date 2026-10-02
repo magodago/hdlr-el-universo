@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Badge } from '../components/Badge';
+import { EasterEgg } from '../components/EasterEgg';
 import { SectionHeading } from '../components/SectionHeading';
+import '../styles/perfil.css';
 import { members, timeline, volumes, counts, allSources, catalog, tourName } from '../data';
 import { getActiveEngine, type RecommendationRequest, type RecommendationResult } from '../lib/ai';
 import { trackEvent } from '../lib/trackEvent';
@@ -284,6 +286,7 @@ function RuinaCardPanel({ result }: { result: RuinaResult }) {
     trackEvent('share_card', { via: outcome, ruina: result.ruina });
     if (outcome === 'downloaded') setStatus('Tu navegador no comparte imágenes: la hemos descargado.');
     if (outcome === 'shared') setStatus('Compartida.');
+    if (outcome === 'cancelled') setStatus('Se ha cancelado el compartir. Puedes descargarla.');
   }
 
   return (
@@ -820,6 +823,19 @@ export function Perfil() {
   const [result, setResult] = useState<RuinaResult | null>(null);
   const [archiveOpen, setArchiveOpen] = useState(false);
 
+  /* Modo inmersivo: mientras dura la intro, el test y el cierre, la interfaz
+     del sitio (cabecera con los numeros de navegacion y sonido) se aparta para
+     que la pantalla sea solo la experiencia. Vuelve al salir el resultado. */
+  useEffect(() => {
+    const root = document.documentElement;
+    if (phase === 'result') {
+      root.removeAttribute('data-ruina-inmersion');
+      return;
+    }
+    root.setAttribute('data-ruina-inmersion', '');
+    return () => root.removeAttribute('data-ruina-inmersion');
+  }, [phase]);
+
   const start = () => {
     soundManager.play('transition');
     trackEvent('cta_click', { id: 'ruina_inicio' });
@@ -866,21 +882,38 @@ export function Perfil() {
     window.scrollTo({ top: 0, behavior: 'auto' });
   };
 
-  if (phase === 'intro') return <Intro onStart={start} />;
-
-  if (phase === 'test') {
+  if (phase === 'intro') {
     return (
-      <TestScreen
-        index={index}
-        locked={locked}
-        chosen={chosen}
-        reaction={reaction}
-        onAnswer={answer}
-      />
+      <>
+        <Intro onStart={start} />
+        <EasterEgg />
+      </>
     );
   }
 
-  if (phase === 'reveal' || !result) return <Reveal onDone={finishReveal} />;
+  if (phase === 'test') {
+    return (
+      <>
+        <TestScreen
+          index={index}
+          locked={locked}
+          chosen={chosen}
+          reaction={reaction}
+          onAnswer={answer}
+        />
+        <EasterEgg />
+      </>
+    );
+  }
+
+  if (phase === 'reveal' || !result) {
+    return (
+      <>
+        <Reveal onDone={finishReveal} />
+        <EasterEgg />
+      </>
+    );
+  }
 
   return (
     <div>
@@ -910,6 +943,8 @@ export function Perfil() {
       </section>
 
       {archiveOpen ? <Archive /> : null}
+
+      <EasterEgg />
     </div>
   );
 }

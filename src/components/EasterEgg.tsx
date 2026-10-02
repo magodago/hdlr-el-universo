@@ -197,7 +197,15 @@ export function EasterEgg() {
     document.body.style.overflow = 'hidden';
     closeRef.current?.focus();
     const onKey = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setOpen(false);
+      if (event.key === 'Escape') {
+        setOpen(false);
+        return;
+      }
+      // Dentro del aviso solo hay un control (Cerrar): el foco no se escapa.
+      if (event.key === 'Tab') {
+        event.preventDefault();
+        closeRef.current?.focus();
+      }
     };
     window.addEventListener('keydown', onKey);
     return () => {
@@ -213,44 +221,46 @@ export function EasterEgg() {
       role="dialog"
       aria-modal="true"
       aria-label="Dedicatoria"
-      className="fixed inset-0 z-[95] flex items-center justify-center bg-void/95 px-6 py-16 backdrop-blur-sm"
+      className="fixed inset-0 z-[95] overflow-y-auto overscroll-contain bg-void/95 px-6 py-12 backdrop-blur-sm"
       onClick={(event) => {
         if (event.target === event.currentTarget) setOpen(false);
       }}
     >
-      <div className="relative w-full max-w-lg text-center">
-        <span
-          className="mx-auto block h-px w-16 bg-blood-bright"
-          aria-hidden="true"
-        />
+      <div className="pointer-events-none flex min-h-full items-center justify-center">
+        <div className="pointer-events-auto relative w-full max-w-lg text-center">
+          <span
+            className="mx-auto block h-px w-16 bg-blood-bright"
+            aria-hidden="true"
+          />
 
-        <p className="mt-8 font-display text-[clamp(1.8rem,8vw,3rem)] leading-[0.98] tracking-[0.01em] text-bone uppercase">
-          {step >= 1 ? LINES[0] : '\u00a0'}
-        </p>
-
-        <div className="mt-7 space-y-5">
-          {step >= 2 ? (
-            <p className="fade-in text-base leading-relaxed text-smoke sm:text-lg">{LINES[1]}</p>
-          ) : null}
-          {step >= 3 ? (
-            <p className="fade-in text-base leading-relaxed text-smoke sm:text-lg">{LINES[2]}</p>
-          ) : null}
-        </div>
-
-        {step >= 4 ? (
-          <p className="fade-in mt-9 font-display text-lg tracking-[0.3em] text-blood-ink uppercase">
-            {LINES[3]}
+          <p className="mt-8 font-display text-[clamp(1.8rem,8vw,3rem)] leading-[0.98] tracking-[0.01em] text-bone uppercase">
+            {step >= 1 ? LINES[0] : '\u00a0'}
           </p>
-        ) : null}
 
-        <button
-          ref={closeRef}
-          type="button"
-          onClick={() => setOpen(false)}
-          className="btn-outline mt-12 min-h-[48px] px-7 py-3 font-display text-xs tracking-[0.24em] uppercase"
-        >
-          Cerrar
-        </button>
+          <div className="mt-7 space-y-5">
+            {step >= 2 ? (
+              <p className="fade-in text-base leading-relaxed text-smoke sm:text-lg">{LINES[1]}</p>
+            ) : null}
+            {step >= 3 ? (
+              <p className="fade-in text-base leading-relaxed text-smoke sm:text-lg">{LINES[2]}</p>
+            ) : null}
+          </div>
+
+          {step >= 4 ? (
+            <p className="fade-in mt-9 font-display text-lg tracking-[0.3em] text-blood-ink uppercase">
+              {LINES[3]}
+            </p>
+          ) : null}
+
+          <button
+            ref={closeRef}
+            type="button"
+            onClick={() => setOpen(false)}
+            className="btn-outline mt-12 min-h-[48px] px-7 py-3 font-display text-xs tracking-[0.24em] uppercase"
+          >
+            Cerrar
+          </button>
+        </div>
       </div>
     </div>,
     document.body,
