@@ -8,6 +8,7 @@ import { Mapa } from './experiences/Mapa';
 import { Cancion } from './experiences/Cancion';
 import { Archivo } from './experiences/Archivo';
 import { Live } from './experiences/Live';
+import { Noche } from './experiences/Noche';
 import { Comunidad } from './experiences/Comunidad';
 import { Proximamente } from './experiences/Proximamente';
 import { SoundToggle } from './lib/SoundToggle';
@@ -23,6 +24,8 @@ const TITLES: Record<string, string> = {
   [ROUTES.cancion]: 'Tu historia · HDLR - El Universo',
   [ROUTES.archivo]: 'Archivo · HDLR - El Universo',
   [ROUTES.live]: 'Live · HDLR - El Universo',
+  [ROUTES.noche]: 'Noche · HDLR - El Universo',
+  [ROUTES.comunidad]: 'Comunidad · HDLR - El Universo',
 };
 
 function View({ path }: { path: string }) {
@@ -39,6 +42,8 @@ function View({ path }: { path: string }) {
       return <Archivo />;
     case ROUTES.live:
       return <Live />;
+    case ROUTES.noche:
+      return <Noche />;
     case ROUTES.comunidad:
       return <Comunidad />;
     default:

@@ -7,7 +7,7 @@ import { findExperience } from '../data/experiences';
 import { LIVE_SESSIONS, OFFICIAL_YOUTUBE_CHANNEL } from '../lib/ai/musicLinks';
 import { ROUTES } from '../lib/router';
 import { trackEvent } from '../lib/trackEvent';
-import { Noche } from './Noche';
+import { Noche as NocheTarjeta } from './NocheTarjeta';
 import '../styles/live.css';
 
 /**
@@ -146,7 +146,7 @@ export function Live() {
 
   if (mode === 'noche') {
     return (
-      <Noche
+      <NocheTarjeta
         code={nightCode}
         city={concert.city}
         dateLabel={concert.dateLabel}

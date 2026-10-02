@@ -499,7 +499,6 @@ function drawCarnet(canvas: HTMLCanvasElement, data: CarnetData): void {
   ctx.fillStyle = COL.ash;
   ctx.font = `500 24px ${BODY}`;
   setTracking(ctx, 4);
-  ctx.fillText('SIN REGISTRO · SIN SERVIDOR · SOLO EN TU DISPOSITIVO', LEFT, 1878);
   setTracking(ctx, 0);
 }
 
@@ -776,17 +775,6 @@ export function Comunidad() {
           <p className="cm-lead rise [animation-delay:320ms]">
             Sin club con cuota y sin muro de seguidores: se ha construido entrega a entrega. Aquí va
             con datos que se pueden comprobar, y con tu carnet, dibujado en tu móvil sin salir de él.
-          </p>
-          <p className="cm-hero-tags rise [animation-delay:440ms]">
-            <span>Sin registro</span>
-            <span className="cm-dot" aria-hidden="true">
-              ·
-            </span>
-            <span>Sin cuenta</span>
-            <span className="cm-dot" aria-hidden="true">
-              ·
-            </span>
-            <span>Sin servidor</span>
           </p>
           <div className="cm-scroll rise [animation-delay:560ms]" aria-hidden="true">
             <span className="cm-scroll-label">Baja</span>

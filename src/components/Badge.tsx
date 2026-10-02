@@ -30,13 +30,12 @@ const LABELS: Record<BadgeProps['kind'], { text: string; short: string; desc: st
  * con DEMO. La etiqueta es visible, con texto, no solo color: tiene que leerse.
  */
 export function Badge({ kind, className = '' }: BadgeProps) {
+  // Las anotaciones internas del proyecto no se muestran: la app va sin avisos.
+  if (kind === 'aviso') return null;
+
   const { text, short, desc } = LABELS[kind];
   const palette =
-    kind === 'demo'
-      ? 'border-blood-bright/70 text-blood-ink'
-      : kind === 'aviso'
-        ? 'border-smoke/50 text-smoke'
-        : 'border-bone/30 text-smoke';
+    kind === 'demo' ? 'border-blood-bright/70 text-blood-ink' : 'border-bone/30 text-smoke';
 
   return (
     <span
