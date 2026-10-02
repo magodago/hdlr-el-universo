@@ -1,0 +1,125 @@
+{
+  "_nota": "Cronologia de Hijos de la Ruina y de su contexto. Cada hito lleva su fuente. Nada aqui es inventado.",
+  "events": [
+    {
+      "year": "2010",
+      "date": "",
+      "title": "Se conocen en las batallas de gallos",
+      "text": "Natos y Waor se conocen en Madrid, en las batallas de gallos a las que solían ir. Deciden empezar a grabar juntos.",
+      "source": "https://es.wikipedia.org/wiki/Natos_y_Waor",
+      "tag": "origen"
+    },
+    {
+      "year": "2011",
+      "date": "",
+      "title": "Por la jeta",
+      "text": "Primer trabajo del dúo. Les abre la puerta a tocar en casas ocupadas y fiestas de pueblo.",
+      "source": "https://es.wikipedia.org/wiki/Natos_y_Waor",
+      "tag": "contexto"
+    },
+    {
+      "year": "2012",
+      "date": "",
+      "title": "Nace Hijos de la Ruina",
+      "text": "Primera entrega de la serie junto a Recycled J. El proyecto paralelo al dúo que acabaría dando cuatro volúmenes.",
+      "source": "https://es.wikipedia.org/wiki/Natos_y_Waor",
+      "tag": "hdlr"
+    },
+    {
+      "year": "2012",
+      "date": "",
+      "title": "La presentación que se les fue de las manos",
+      "text": "En la presentación del Vol. 1, en una sala pequeña, no sacaron entradas anticipadas. Según contó Waor, se plantaron más de mil personas en la puerta.",
+      "source": "https://www.antena3.com/noticias/cultura/natos-waor-preparados-llevar-rap-mas-alto-abarrotando-metropolitano-climax-nuestra-carrera_202506076843e37e4c9357775b844fe9.html",
+      "tag": "hdlr"
+    },
+    {
+      "year": "2014",
+      "date": "",
+      "title": "Caja negra",
+      "text": "Primer disco de estudio del dúo, editado sin discográfica.",
+      "source": "https://es.wikipedia.org/wiki/Natos_y_Waor",
+      "tag": "contexto"
+    },
+    {
+      "year": "2015",
+      "date": "",
+      "title": "Martes 13",
+      "text": "El disco que los convierte en referencia del rap español. En 2016 gana el premio al mejor álbum de hip hop y música urbana en los Premios de la Música Independiente.",
+      "source": "https://es.wikipedia.org/wiki/Natos_y_Waor",
+      "tag": "contexto"
+    },
+    {
+      "year": "2016",
+      "date": "",
+      "title": "Vol. 2",
+      "text": "Segunda entrega de Hijos de la Ruina, seis cortes.",
+      "source": "https://es.wikipedia.org/wiki/Recycled_J",
+      "tag": "hdlr"
+    },
+    {
+      "year": "2018",
+      "date": "",
+      "title": "Cicatrices",
+      "text": "Nuevo disco de Natos y Waor.",
+      "source": "https://es.wikipedia.org/wiki/Natos_y_Waor",
+      "tag": "contexto"
+    },
+    {
+      "year": "2020",
+      "date": "",
+      "title": "Underground Kings",
+      "text": "Documental producido por ellos mismos sobre su trayectoria, de las casas ocupadas al Palacio de Vistalegre.",
+      "source": "https://es.wikipedia.org/wiki/Natos_y_Waor",
+      "tag": "contexto"
+    },
+    {
+      "year": "2021",
+      "date": "13 de abril",
+      "title": "Vol. 3",
+      "text": "Tercer volumen, siete cortes. El primer adelanto, Nosotros, lideró tendencias en YouTube España en los cuatro días siguientes a su salida.",
+      "source": "https://elfest.es/en/sevilla/events/concerts/natos-and-waor",
+      "tag": "hdlr"
+    },
+    {
+      "year": "2022",
+      "date": "",
+      "title": "Luna llena",
+      "text": "Disco del dúo con producción de Pablo Gareta y guitarra de Jack Sheehan.",
+      "source": "https://elfest.es/en/sevilla/events/concerts/natos-and-waor",
+      "tag": "contexto"
+    },
+    {
+      "year": "2024",
+      "date": "",
+      "title": "Mal de amores",
+      "text": "Séptimo disco de estudio de Natos y Waor.",
+      "source": "https://natosywaor.com/pages/biografia-natos-y-waor",
+      "tag": "contexto"
+    },
+    {
+      "year": "2025",
+      "date": "7 de junio",
+      "title": "60.000 personas en el Metropolitano",
+      "text": "Concierto de 15 aniversario en el Riyadh Air Metropolitano de Madrid. Sobre ese escenario anuncian la cuarta parte de Hijos de la Ruina y una gira por España.",
+      "source": "https://www.europapress.es/cultura/musica-00129/noticia-natos-waor-celebran-15-anos-carrera-metropolitano-incendiado-20250608002550.html",
+      "tag": "hito"
+    },
+    {
+      "year": "2026",
+      "date": "Enero",
+      "title": "Vol. 4",
+      "text": "Cuarto volumen de Hijos de la Ruina: 21 cortes, 1 hora y 9 minutos. Debuta en el número 3 de la lista Top 100 Álbumes España.",
+      "source": "https://www.lahiguera.net/musicalia/artistas/natos_y_waor/disco/14820/",
+      "tag": "hdlr"
+    },
+    {
+      "year": "2026",
+      "date": "Febrero a noviembre",
+      "title": "Gira HDLR 2026",
+      "text": "Once plazas anunciadas en grandes recintos: Sevilla, Zaragoza, Madrid, A Coruña, Barcelona, Valencia, Granada, Salamanca, Bilbao, Tenerife y Málaga.",
+      "source": "https://www.20minutos.es/noticia/5719921/0/hijos-ruina-anuncian-nuevo-album-una-gira-por-espana-para-2026/",
+      "tag": "hdlr"
+    }
+  ]
+}

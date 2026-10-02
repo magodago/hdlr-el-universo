@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="HDLR">
+  <rect width="64" height="64" fill="#08080a" />
+  <rect x="0" y="0" width="8" height="64" fill="#8f1116" />
+  <text
+    x="38"
+    y="43"
+    text-anchor="middle"
+    font-family="Arial Black, Arial, sans-serif"
+    font-size="17"
+    font-weight="900"
+    letter-spacing="-1.5"
+    fill="#f4f2ef"
+  >HDLR</text>
+</svg>

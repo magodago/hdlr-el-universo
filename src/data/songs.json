@@ -1,0 +1,111 @@
+{
+  "_nota": "Discografia de Hijos de la Ruina (Natos y Waor + Recycled J) con los tracks verificados en tiendas oficiales. Los campos duration y features se transcriben de esas fuentes, no se han inventado.",
+  "volumes": [
+    {
+      "id": "vol1",
+      "title": "Hijos de la Ruina",
+      "shortTitle": "Vol. 1",
+      "year": 2012,
+      "releasedLabel": "2012",
+      "label": "Natos y Waor",
+      "trackCount": 5,
+      "durationLabel": "17 min 43 s",
+      "sources": [
+        "https://qobuz.com/us-en/album/hijos-de-la-ruina-vol1-natos-y-waor-recycled-j-hijos-de-la-ruina/p0yxwbbp3xixb",
+        "https://es.wikipedia.org/wiki/Natos_y_Waor"
+      ],
+      "tracks": [
+        { "n": 1, "title": "Chillin", "duration": "2:36" },
+        { "n": 2, "title": "Hija de puta", "duration": "2:43", "explicit": true },
+        { "n": 3, "title": "Hijos de la ruina", "duration": "3:14" },
+        { "n": 4, "title": "Medias tintas", "duration": "5:58" },
+        { "n": 5, "title": "Tiras y aflojas", "duration": "3:12" }
+      ]
+    },
+    {
+      "id": "vol2",
+      "title": "Hijos de la Ruina, Vol. 2",
+      "shortTitle": "Vol. 2",
+      "year": 2016,
+      "releasedLabel": "2016",
+      "label": "Natos y Waor / A Hits Music",
+      "trackCount": 6,
+      "durationLabel": "24 min 54 s",
+      "sources": [
+        "https://qobuz.com/us-en/album/hijos-de-la-ruina-vol-2-natos-y-waor-recycled-j-hijos-de-la-ruina/sqg1754679lvc",
+        "https://music.apple.com/il/album/hijos-de-la-ruina-vol-2-ep/1637550176"
+      ],
+      "tracks": [
+        { "n": 1, "title": "Carretera", "duration": "3:34" },
+        { "n": 2, "title": "In love", "duration": "5:28", "explicit": true },
+        { "n": 3, "title": "Speed", "duration": "4:15", "explicit": true },
+        { "n": 4, "title": "Agua y aceite", "duration": "3:50", "explicit": true },
+        { "n": 5, "title": "Carne de cañón", "duration": "4:22", "explicit": true },
+        { "n": 6, "title": "J' suis HDLR", "duration": "3:25", "explicit": true }
+      ]
+    },
+    {
+      "id": "vol3",
+      "title": "Hijos de la Ruina, Vol. 3",
+      "shortTitle": "Vol. 3",
+      "year": 2021,
+      "releasedLabel": "13 de abril de 2021",
+      "label": "Natos y Waor",
+      "trackCount": 7,
+      "durationLabel": "29 min",
+      "sources": [
+        "https://music.apple.com/es/album/hijos-de-la-ruina-vol-3/1637574445",
+        "https://genius.com/albums/Natos-y-waor-recycled-j-and-hijos-de-la-ruina/Hijos-de-la-ruina-vol-3"
+      ],
+      "tracks": [
+        { "n": 1, "title": "Nosotros", "duration": "4:23", "single": true },
+        { "n": 2, "title": "Fuego, fuego", "duration": "3:33" },
+        { "n": 3, "title": "Cuestión de Fe", "duration": "4:50" },
+        { "n": 4, "title": "Sudores fríos", "duration": "4:35" },
+        { "n": 5, "title": "Más Alcohol", "duration": "4:00", "single": true },
+        { "n": 6, "title": "A la tumba" },
+        { "n": 7, "title": "Dime que sí" }
+      ]
+    },
+    {
+      "id": "vol4",
+      "title": "HIJOS DE LA RUINA VOL. 4",
+      "shortTitle": "Vol. 4",
+      "year": 2026,
+      "releasedLabel": "15 de enero de 2026 (web oficial: 16 de enero)",
+      "label": "Hijos de la Ruina",
+      "trackCount": 21,
+      "durationLabel": "1 h 9 min 37 s",
+      "sources": [
+        "https://music.apple.com/es/album/hijos-de-la-ruina-vol-4/1863671064",
+        "https://genius.com/albums/Natos-y-waor-recycled-j-and-hijos-de-la-ruina/Hijos-de-la-ruina-vol-4",
+        "https://www.lahiguera.net/musicalia/artistas/natos_y_waor/disco/14820/",
+        "https://discogs.com/release/36231979-Natos-y-Waor-Hijos-de-la-Ruina-Vol-4",
+        "https://natosywaor.com/pages/biografia-natos-y-waor"
+      ],
+      "tracks": [
+        { "n": 1, "title": "Otra vez", "duration": "2:13" },
+        { "n": 2, "title": "Bajo Zero", "duration": "3:37" },
+        { "n": 3, "title": "Muerto en vida", "duration": "4:02" },
+        { "n": 4, "title": "First Class", "duration": "2:10" },
+        { "n": 5, "title": "Penas y glorias", "duration": "3:07", "features": ["Cano"] },
+        { "n": 6, "title": "La trampa", "duration": "3:15" },
+        { "n": 7, "title": "Hijos de la capital", "duration": "4:08", "features": ["Charlie Hijos Bastardos", "Nasta"] },
+        { "n": 8, "title": "Los niños del barrio", "duration": "3:22" },
+        { "n": 9, "title": "Pierdo el control", "duration": "2:23", "single": true },
+        { "n": 10, "title": "Cansado de fingir", "duration": "2:59" },
+        { "n": 11, "title": "No sé", "duration": "3:13", "features": ["Lía Kali"] },
+        { "n": 12, "title": "El chándal de los domingos 2", "duration": "2:28" },
+        { "n": 13, "title": "Moltisanti", "duration": "3:50" },
+        { "n": 14, "title": "Oveja negra", "duration": "3:27" },
+        { "n": 15, "title": "Morir o matar", "duration": "3:20" },
+        { "n": 16, "title": "De madrugada", "duration": "3:51" },
+        { "n": 17, "title": "Ahá", "duration": "3:59", "features": ["Cruz Cafuné"] },
+        { "n": 18, "title": "Madriz", "duration": "2:08", "features": ["Selecta"] },
+        { "n": 19, "title": "Nada ha cambiado", "duration": "2:52", "features": ["Suite Soprano", "Juancho Marqués", "Sule B"] },
+        { "n": 20, "title": "Roto por dentro", "duration": "4:30" },
+        { "n": 21, "title": "Cuando nadie nos mira", "duration": "4:43" }
+      ]
+    }
+  ]
+}

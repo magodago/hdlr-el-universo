@@ -1,0 +1,124 @@
+{
+  "_nota": "Recintos y fechas de la gira HDLR 2026 confirmadas por la web oficial de Natos y Waor y por prensa. Las coordenadas son datos geograficos publicos y se usan solo para situar el punto en el mapa.",
+  "_fuentes": [
+    "https://natosywaor.com/pages/biografia-natos-y-waor",
+    "https://los40.com/2025/06/11/entradas-de-la-gira-de-hijos-de-la-ruina-en-2026-cuando-y-donde-comprarlas/",
+    "https://www.20minutos.es/noticia/5719921/0/hijos-ruina-anuncian-nuevo-album-una-gira-por-espana-para-2026/",
+    "https://www.tomaticket.es/artista/hijos-de-la-ruina",
+    "https://www.taquilla.com/entradas/hijos-de-la-ruina"
+  ],
+  "tour": "Hijos de la Ruina 2026",
+  "concerts": [
+    {
+      "id": "sevilla",
+      "city": "Sevilla",
+      "venue": "Cartuja Center CITE",
+      "dateISO": "2026-02-27",
+      "dateLabel": "27 de febrero de 2026",
+      "lat": 37.3891,
+      "lon": -5.9845,
+      "confirmed": true
+    },
+    {
+      "id": "zaragoza",
+      "city": "Zaragoza",
+      "venue": "Pabellón Príncipe Felipe",
+      "dateISO": "2026-03-06",
+      "dateLabel": "6 de marzo de 2026",
+      "lat": 41.6488,
+      "lon": -0.8891,
+      "confirmed": true
+    },
+    {
+      "id": "madrid",
+      "city": "Madrid",
+      "venue": "Movistar Arena",
+      "dateISO": "2026-03-13",
+      "dateLabel": "13 de marzo de 2026",
+      "lat": 40.4168,
+      "lon": -3.7038,
+      "confirmed": true
+    },
+    {
+      "id": "acoruna",
+      "city": "A Coruña",
+      "venue": "Coliseum da Coruña",
+      "dateISO": "2026-04-17",
+      "dateLabel": "17 de abril de 2026",
+      "lat": 43.3623,
+      "lon": -8.4115,
+      "confirmed": true
+    },
+    {
+      "id": "barcelona",
+      "city": "Barcelona",
+      "venue": "Palau Sant Jordi",
+      "dateISO": "2026-05-15",
+      "dateLabel": "15 de mayo de 2026",
+      "lat": 41.3874,
+      "lon": 2.1686,
+      "confirmed": true
+    },
+    {
+      "id": "valencia",
+      "city": "Valencia",
+      "venue": "Roig Arena",
+      "dateISO": "2026-09-18",
+      "dateLabel": "18 de septiembre de 2026",
+      "lat": 39.4699,
+      "lon": -0.3763,
+      "confirmed": true
+    },
+    {
+      "id": "granada",
+      "city": "Granada",
+      "venue": "Plaza de Toros de Granada",
+      "dateISO": "2026-09-26",
+      "dateLabel": "26 de septiembre de 2026",
+      "lat": 37.1773,
+      "lon": -3.5986,
+      "confirmed": true
+    },
+    {
+      "id": "salamanca",
+      "city": "Salamanca",
+      "venue": "Enjoy! Multiusos Sánchez Paraíso",
+      "dateISO": "2026-10-17",
+      "dateLabel": "17 de octubre de 2026",
+      "lat": 40.9701,
+      "lon": -5.6635,
+      "confirmed": true
+    },
+    {
+      "id": "bilbao",
+      "city": "Bilbao",
+      "venue": "Bilbao Arena Miribilla",
+      "dateISO": "2026-10-24",
+      "dateLabel": "24 de octubre de 2026",
+      "lat": 43.263,
+      "lon": -2.935,
+      "confirmed": true
+    },
+    {
+      "id": "tenerife",
+      "city": "Santa Cruz de Tenerife",
+      "venue": "Recinto por concretar",
+      "dateISO": "2026-10-31",
+      "dateLabel": "31 de octubre de 2026",
+      "lat": 28.4636,
+      "lon": -16.2518,
+      "confirmed": false,
+      "nota": "Recinto sin confirmar. Aparece en listados de venta de entradas, no en la web oficial. Se marca DEMO."
+    },
+    {
+      "id": "malaga",
+      "city": "Málaga",
+      "venue": "Palacio de Deportes José María Martín Carpena",
+      "dateISO": "2026-11-07",
+      "dateLabel": "7 de noviembre de 2026",
+      "lat": 36.7213,
+      "lon": -4.4214,
+      "confirmed": true
+    }
+  ]
+}

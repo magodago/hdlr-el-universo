@@ -1,0 +1,43 @@
+{
+  "_nota": "Integrantes de Hijos de la Ruina. Datos de nombre, lugar y fecha de nacimiento tomados de las biografias de Wikipedia y de la web oficial. No se ha inventado nada.",
+  "_fuentes": [
+    "https://es.wikipedia.org/wiki/Natos_y_Waor",
+    "https://es.wikipedia.org/wiki/Recycled_J",
+    "https://natosywaor.com/pages/biografia-natos-y-waor"
+  ],
+  "members": [
+    {
+      "id": "natos",
+      "alias": "Natos",
+      "realName": "Gonzalo Cidre Aranaz",
+      "born": "Buenos Aires, 14 de octubre de 1991",
+      "from": "Buenos Aires (Argentina)",
+      "role": "Voz y autor",
+      "project": "Natos y Waor",
+      "note": "La mitad de Natos y Waor. Con Waor forma el dúo base del proyecto, y con Recycled J completa el trío de Hijos de la Ruina.",
+      "source": "https://es.wikipedia.org/wiki/Natos_y_Waor"
+    },
+    {
+      "id": "waor",
+      "alias": "Waor",
+      "realName": "Fernando Hisado Maldonado",
+      "born": "Madrid, 28 de mayo de 1988",
+      "from": "Madrid",
+      "role": "Voz y autor",
+      "project": "Natos y Waor",
+      "note": "La otra mitad de Natos y Waor. Se conocieron en 2010, en las batallas de gallos de Madrid.",
+      "source": "https://es.wikipedia.org/wiki/Natos_y_Waor"
+    },
+    {
+      "id": "recycled-j",
+      "alias": "Recycled J",
+      "realName": "Jorge Escorial Moreno",
+      "born": "Carabanchel, Madrid, 17 de julio de 1993",
+      "from": "Carabanchel, Madrid",
+      "role": "Voz y autor",
+      "project": "Carrera en solitario e Hijos de la Ruina",
+      "note": "Antes firmaba como Cool y formó parte del grupo Prefijo91. Activo desde 2011.",
+      "source": "https://es.wikipedia.org/wiki/Recycled_J"
+    }
+  ]
+}

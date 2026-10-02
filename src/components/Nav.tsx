@@ -1,0 +1,107 @@
+import { useEffect, useState } from 'react';
+import { EXPERIENCES } from '../data/experiences';
+import { Link, ROUTES } from '../lib/router';
+import { trackEvent } from '../lib/trackEvent';
+
+const PRIMARY = EXPERIENCES.filter((experience) => experience.status === 'listo');
+
+/** Barra de progreso de lectura, atada al scroll. */
+function ScrollProgress() {
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const doc = document.documentElement;
+      const max = doc.scrollHeight - doc.clientHeight;
+      setProgress(max > 0 ? Math.min(1, doc.scrollTop / max) : 0);
+    };
+    const onScroll = () => {
+      if (frame === 0) frame = requestAnimationFrame(update);
+    };
+    update();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+      if (frame) cancelAnimationFrame(frame);
+    };
+  }, []);
+
+  return (
+    <div className="fixed top-0 left-0 z-[70] h-[2px] w-full bg-transparent" aria-hidden="true">
+      <div
+        className="h-full origin-left bg-blood-bright"
+        style={{ transform: `scaleX(${progress})` }}
+      />
+    </div>
+  );
+}
+
+interface NavProps {
+  path: string;
+}
+
+export function Nav({ path }: NavProps) {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  return (
+    <>
+      <ScrollProgress />
+      <header
+        className={`fixed inset-x-0 top-0 z-[60] transition-colors duration-500 ${
+          scrolled ? 'border-b border-steel/80 bg-void/88 backdrop-blur-md' : 'border-b border-transparent'
+        }`}
+      >
+        <nav
+          aria-label="Navegación principal"
+          className="mx-auto flex max-w-[1400px] items-center justify-between gap-4 px-4 py-3 sm:px-8"
+        >
+          <Link
+            to={ROUTES.entrada}
+            className="group flex items-baseline gap-2"
+            onClick={() => trackEvent('nav_click', { from: path, to: ROUTES.entrada })}
+          >
+            <span className="font-display text-2xl leading-none tracking-[0.06em] text-bone">
+              HDLR
+            </span>
+            <span className="hidden font-body text-[10px] font-semibold tracking-[0.34em] text-ash uppercase sm:inline">
+              El Universo
+            </span>
+          </Link>
+
+          <ul className="flex items-center gap-3 overflow-x-auto sm:gap-7">
+            {PRIMARY.map((experience) => {
+              const active = path === experience.slug;
+              return (
+                <li key={experience.slug} className="shrink-0">
+                  <Link
+                    to={experience.slug}
+                    data-active={active}
+                    aria-current={active ? 'page' : undefined}
+                    className={`link-sweep font-body text-[11px] font-semibold tracking-[0.24em] uppercase transition-colors sm:text-xs ${
+                      active ? 'text-bone' : 'text-smoke hover:text-bone'
+                    }`}
+                    onClick={() => trackEvent('nav_click', { from: path, to: experience.slug })}
+                  >
+                    <span className="text-blood-ink">{experience.n}</span>
+                    <span className="ml-1.5">{experience.short}</span>
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
+      </header>
+    </>
+  );
+}

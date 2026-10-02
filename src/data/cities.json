@@ -1,0 +1,39 @@
+{
+  "_nota": "Ciudades de la gira HDLR 2026. Las coordenadas son datos geograficos publicos que solo sirven para colocar el punto en el mapa. La lista de paises internacionales es textual y viene de la web oficial: no se situa ningun punto porque no hay ciudad concreta confirmada.",
+  "tourCities": [
+    { "id": "sevilla", "city": "Sevilla", "lat": 37.3891, "lon": -5.9845, "peninsula": true },
+    { "id": "zaragoza", "city": "Zaragoza", "lat": 41.6488, "lon": -0.8891, "peninsula": true },
+    { "id": "madrid", "city": "Madrid", "lat": 40.4168, "lon": -3.7038, "peninsula": true },
+    { "id": "acoruna", "city": "A Coruña", "lat": 43.3623, "lon": -8.4115, "peninsula": true },
+    { "id": "barcelona", "city": "Barcelona", "lat": 41.3874, "lon": 2.1686, "peninsula": true },
+    { "id": "valencia", "city": "Valencia", "lat": 39.4699, "lon": -0.3763, "peninsula": true },
+    { "id": "granada", "city": "Granada", "lat": 37.1773, "lon": -3.5986, "peninsula": true },
+    { "id": "salamanca", "city": "Salamanca", "lat": 40.9701, "lon": -5.6635, "peninsula": true },
+    { "id": "bilbao", "city": "Bilbao", "lat": 43.263, "lon": -2.935, "peninsula": true },
+    {
+      "id": "tenerife",
+      "city": "Santa Cruz de Tenerife",
+      "lat": 28.4636,
+      "lon": -16.2518,
+      "peninsula": false,
+      "inset": true,
+      "demo": true,
+      "nota": "Recinto sin confirmar: solo aparece en listados de venta de entradas."
+    },
+    { "id": "malaga", "city": "Málaga", "lat": 36.7213, "lon": -4.4214, "peninsula": true }
+  ],
+  "international": {
+    "titulo": "Fuera de España",
+    "paises": [
+      "Argentina",
+      "México",
+      "Colombia",
+      "Uruguay",
+      "Ecuador",
+      "Guatemala",
+      "Inglaterra",
+      "Estados Unidos"
+    ],
+    "fuente": "https://natosywaor.com/pages/biografia-natos-y-waor"
+  }
+}
