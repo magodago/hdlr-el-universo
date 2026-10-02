@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { Badge } from '../components/Badge';
 import { EasterEgg } from '../components/EasterEgg';
 import { SectionHeading } from '../components/SectionHeading';
+import { TrackPreview, tienePreview } from '../components/TrackPreview';
 import '../styles/perfil.css';
 import { members, timeline, volumes, counts, allSources, catalog, tourName } from '../data';
 import { getActiveEngine, type RecommendationRequest, type RecommendationResult } from '../lib/ai';
@@ -12,6 +13,7 @@ import {
   DIMENSION_LABELS,
   DISPLAY_DIMENSIONS,
   QUESTIONS,
+  saveRuinaAnswers,
   type DisplayDimension,
   type RuinaResult,
 } from '../lib/ruina';
@@ -392,31 +394,45 @@ function TrackList({ volumeId }: { volumeId: string }) {
   const volume = volumes.find((item) => item.id === volumeId);
   if (!volume) return null;
 
+  const conFragmento = volume.tracks.some((track) => tienePreview(track.title));
+
   return (
-    <ol className="mt-px divide-y divide-steel border-t border-steel">
-      {volume.tracks.map((track) => (
-        <li
-          key={`${volume.id}-${track.n}`}
-          className="grid grid-cols-[2.2rem_1fr_auto] items-baseline gap-3 px-4 py-3 sm:px-6"
-        >
-          <span className="font-display text-sm text-ash">{String(track.n).padStart(2, '0')}</span>
-          <span className="min-w-0">
-            <span className="flex flex-wrap items-baseline gap-2">
-              <span className="text-[15px] font-semibold text-bone">{track.title}</span>
-              {track.single ? (
-                <span className="border border-blood-bright/60 px-1.5 py-[1px] font-body text-[9px] font-bold tracking-[0.2em] text-blood-ink uppercase">
-                  Adelanto
-                </span>
+    <>
+      <ol className="mt-px divide-y divide-steel border-t border-steel">
+        {volume.tracks.map((track) => (
+          <li
+            key={`${volume.id}-${track.n}`}
+            className="grid grid-cols-[2.2rem_1fr_auto] items-baseline gap-3 px-4 py-3 sm:px-6"
+          >
+            <span className="font-display text-sm text-ash">{String(track.n).padStart(2, '0')}</span>
+            <span className="min-w-0">
+              <span className="flex flex-wrap items-baseline gap-2">
+                <span className="text-[15px] font-semibold text-bone">{track.title}</span>
+                {track.single ? (
+                  <span className="border border-blood-bright/60 px-1.5 py-[1px] font-body text-[9px] font-bold tracking-[0.2em] text-blood-ink uppercase">
+                    Adelanto
+                  </span>
+                ) : null}
+              </span>
+              {track.features && track.features.length > 0 ? (
+                <span className="mt-1 block text-xs text-smoke">Con {track.features.join(', ')}</span>
               ) : null}
             </span>
-            {track.features && track.features.length > 0 ? (
-              <span className="mt-1 block text-xs text-smoke">Con {track.features.join(', ')}</span>
+            <span className="font-body text-xs tabular-nums text-ash">{track.duration ?? 's/d'}</span>
+            {tienePreview(track.title) ? (
+              <div className="col-start-2 col-end-4 mt-1">
+                <TrackPreview titulo={track.title} compacto />
+              </div>
             ) : null}
-          </span>
-          <span className="font-body text-xs tabular-nums text-ash">{track.duration ?? 's/d'}</span>
-        </li>
-      ))}
-    </ol>
+          </li>
+        ))}
+      </ol>
+      {conFragmento ? (
+        <p className="border-t border-steel px-4 py-3 text-[11px] leading-relaxed text-ash sm:px-6">
+          Los botones de escucha suenan 30 segundos de fragmento, cortesía de Deezer.
+        </p>
+      ) : null}
+    </>
   );
 }
 
@@ -869,6 +885,9 @@ export function Perfil() {
 
   const finishReveal = () => {
     setResult(computeRuina(answers));
+    // Las respuestas se quedan en este dispositivo para que el carnet de la
+    // seccion Comunidad pueda reconstruir el mismo resultado. Sin servidor.
+    saveRuinaAnswers(answers);
     setPhase('result');
   };
 

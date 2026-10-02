@@ -332,3 +332,57 @@ export const DIMENSION_LABELS: Record<DisplayDimension, string> = {
   energia: 'Energía',
   libertad: 'Libertad',
 };
+
+/* ------------------------------------------------------------------ */
+/* Persistencia local (sin servidor)                                   */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Las respuestas del test se quedan SOLO en este dispositivo, dentro de
+ * localStorage. No hay cuentas, ni servidor, ni envio de datos a ningun sitio.
+ *
+ * Se guardan los indices de las opciones elegidas (numeros del 0 al 2): no son
+ * datos personales. La seccion Comunidad lee estas mismas respuestas para
+ * reconstruir el resultado con `computeRuina` y no duplicar el motor.
+ */
+export const RUINA_STORAGE_KEY = 'hdlr.ruina.respuestas.v1';
+
+/** Guarda las respuestas en el dispositivo. Falla en silencio si no hay storage. */
+export function saveRuinaAnswers(answers: number[]): void {
+  if (typeof window === 'undefined') return;
+  try {
+    window.localStorage.setItem(RUINA_STORAGE_KEY, JSON.stringify(answers));
+  } catch {
+    /* almacenamiento no disponible: se ignora en silencio */
+  }
+}
+
+/**
+ * Devuelve las respuestas guardadas en este dispositivo, o null si no hay nada
+ * valido. Acepta tanto el array de indices como un objeto { answers: [...] }.
+ */
+export function loadRuinaAnswers(): number[] | null {
+  if (typeof window === 'undefined') return null;
+  try {
+    const raw = window.localStorage.getItem(RUINA_STORAGE_KEY);
+    if (!raw) return null;
+    const parsed: unknown = JSON.parse(raw);
+    const fromObject =
+      typeof parsed === 'object' && parsed !== null
+        ? (parsed as { answers?: unknown }).answers
+        : null;
+    const candidate: unknown[] | null = Array.isArray(parsed)
+      ? parsed
+      : Array.isArray(fromObject)
+        ? fromObject
+        : null;
+    if (!candidate || candidate.length !== QUESTIONS.length) return null;
+    const valid = candidate.every(
+      (value) => typeof value === 'number' && Number.isInteger(value) && value >= 0,
+    );
+    if (!valid) return null;
+    return candidate as number[];
+  } catch {
+    return null;
+  }
+}

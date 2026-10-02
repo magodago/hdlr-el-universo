@@ -1,5 +1,6 @@
 import { useMemo, useRef, useState } from 'react';
 import { Badge } from '../components/Badge';
+import { TrackPreview, tienePreview } from '../components/TrackPreview';
 import { catalog } from '../data';
 import { findExperience } from '../data/experiences';
 import { OFFICIAL_YOUTUBE_CHANNEL, TRACK_LINKS, VERIFIED_LINK_COUNT, VERIFIED_VIDEO_COUNT } from '../lib/ai/musicLinks';
@@ -363,6 +364,15 @@ export function Cancion() {
                   </a>
                 ) : null}
               </div>
+
+              {tienePreview(main.title) ? (
+                <div className="mt-5">
+                  <TrackPreview titulo={main.title} />
+                  <p className="mt-2 text-xs leading-relaxed text-ash">
+                    Son 30 segundos de fragmento, cortesía de Deezer.
+                  </p>
+                </div>
+              ) : null}
 
               {!main.youtube ? (
                 <p className="mt-4 text-xs leading-relaxed text-ash">

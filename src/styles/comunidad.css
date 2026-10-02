@@ -1,0 +1,717 @@
+/* ------------------------------------------------------------------
+   COMUNIDAD (experiencia 08)
+   Negro, grises y rojo oscuro. Titulares en display, mucho aire y
+   animaciones cortas con intencion. Movil primero (390 x 844).
+   Nada de panel, nada de red social: es una puerta, no un feed.
+   ------------------------------------------------------------------ */
+
+.cm {
+  position: relative;
+  padding-bottom: 3rem;
+}
+
+/* ------------------------------------------------------------------ */
+/* Portada                                                             */
+/* ------------------------------------------------------------------ */
+
+.cm-hero {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  min-height: 82svh;
+  align-items: flex-end;
+  padding: 7.5rem 1.25rem 3.5rem;
+  border-bottom: 1px solid var(--color-steel);
+}
+
+.cm-hero-glow {
+  position: absolute;
+  top: -26%;
+  right: -32%;
+  height: 78vmax;
+  width: 78vmax;
+  border-radius: 999px;
+  background: radial-gradient(
+    circle,
+    rgba(143, 17, 22, 0.42) 0%,
+    rgba(143, 17, 22, 0.1) 42%,
+    rgba(5, 5, 6, 0) 70%
+  );
+}
+
+.cm-kicker {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.36em;
+  text-transform: uppercase;
+  color: var(--color-blood-ink);
+}
+
+.cm-title {
+  margin-top: 1.1rem;
+  font-family: var(--font-display);
+  font-size: clamp(3.6rem, 20vw, 8rem);
+  line-height: 0.82;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+}
+
+.cm-title-a {
+  display: block;
+  color: var(--color-bone);
+}
+
+.cm-title-b {
+  display: block;
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--color-blood-bright);
+  /* Un desplazamiento minimo: la segunda linea se sale un poco del margen,
+     como un titular de fanzine, no como un encabezado de plantilla. */
+  margin-left: -0.06em;
+}
+
+.cm-lead {
+  margin-top: 1.6rem;
+  max-width: 34rem;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--color-smoke);
+}
+
+.cm-hero-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1.8rem;
+}
+
+.cm-chip {
+  border: 1px solid var(--color-steel);
+  background: rgba(18, 18, 21, 0.6);
+  padding: 0.4rem 0.7rem;
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-ash);
+}
+.cm-chip::before {
+  content: '';
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  margin-right: 0.5rem;
+  border-radius: 999px;
+  background: var(--color-blood-bright);
+  vertical-align: middle;
+}
+
+/* ------------------------------------------------------------------ */
+/* Secciones                                                           */
+/* ------------------------------------------------------------------ */
+
+.cm-section {
+  padding: 5.5rem 1.25rem;
+}
+.cm-section-alt {
+  position: relative;
+  border-top: 1px solid var(--color-steel);
+  background: linear-gradient(180deg, var(--color-ink), var(--color-void));
+}
+
+@media (min-width: 768px) {
+  .cm-hero {
+    padding: 9rem 2rem 4.5rem;
+  }
+  .cm-section {
+    padding: 7rem 2rem;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* La gente: fichas con fuente                                         */
+/* ------------------------------------------------------------------ */
+
+.cm-facts {
+  display: grid;
+  gap: 0;
+  margin-top: 3rem;
+  border-top: 1px solid var(--color-steel);
+  counter-reset: hecho;
+}
+
+.cm-fact {
+  position: relative;
+  padding: 1.9rem 0 1.9rem 2.6rem;
+  border-bottom: 1px solid var(--color-steel);
+  counter-increment: hecho;
+}
+
+.cm-fact::before {
+  content: '/' counter(hecho, decimal-leading-zero);
+  position: absolute;
+  top: 1.95rem;
+  left: 0;
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  letter-spacing: 0.08em;
+  color: var(--color-blood-ink);
+}
+
+.cm-fact-et {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--color-ash);
+}
+
+.cm-fact-title {
+  margin-top: 0.4rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 6vw, 2.1rem);
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--color-bone);
+}
+
+.cm-fact-text {
+  margin-top: 0.7rem;
+  max-width: 56ch;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--color-smoke);
+}
+
+.cm-fact-src {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin-top: 0.55rem;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-smoke);
+}
+.cm-fact-src:hover,
+.cm-fact-src:focus-visible {
+  color: var(--color-bone);
+}
+
+/* Cifras: tira con separadores, no tarjetas sueltas. */
+.cm-cifras {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  margin-top: 3rem;
+  border: 1px solid var(--color-steel);
+  background: rgba(10, 10, 12, 0.6);
+}
+
+.cm-cifra {
+  padding: 1.4rem 1.3rem;
+  border-right: 1px solid var(--color-steel);
+  border-bottom: 1px solid var(--color-steel);
+}
+.cm-cifra:nth-child(2n) {
+  border-right: 0;
+}
+
+.cm-cifra-n {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 9vw, 3rem);
+  line-height: 0.9;
+  color: var(--color-bone);
+}
+
+.cm-cifra-l {
+  display: block;
+  margin-top: 0.5rem;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-ash);
+}
+
+/* Cita de prensa: barra roja a la izquierda, sin caja de tarjeta. */
+.cm-pull {
+  position: relative;
+  margin-top: 3rem;
+  padding-left: 1.4rem;
+  border-left: 3px solid var(--color-blood);
+}
+.cm-pull p {
+  max-width: 54ch;
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 4.6vw, 1.7rem);
+  line-height: 1.25;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: var(--color-bone);
+}
+
+.cm-sources {
+  margin-top: 3.5rem;
+  padding-top: 1.6rem;
+  border-top: 1px solid var(--color-steel);
+}
+.cm-sources-h {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--color-blood-ink);
+}
+.cm-sources ul {
+  display: grid;
+  gap: 0.15rem;
+  margin-top: 1.1rem;
+}
+.cm-sources a {
+  display: inline-block;
+  padding: 0.35rem 0;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--color-smoke);
+}
+.cm-sources a:hover,
+.cm-sources a:focus-visible {
+  color: var(--color-bone);
+}
+.cm-src-host {
+  color: var(--color-ash);
+}
+
+@media (min-width: 768px) {
+  .cm-facts {
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 3rem;
+  }
+  .cm-cifras {
+    grid-template-columns: repeat(5, 1fr);
+  }
+  .cm-cifra {
+    border-bottom: 0;
+  }
+  .cm-cifra:last-child {
+    border-right: 0;
+  }
+  .cm-cifra:nth-child(2n) {
+    border-right: 1px solid var(--color-steel);
+  }
+  .cm-sources ul {
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 2rem;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Carnet                                                              */
+/* ------------------------------------------------------------------ */
+
+.cm-carnet {
+  display: grid;
+  gap: 2.5rem;
+  margin-top: 3rem;
+}
+
+.cm-carnet-stage {
+  display: flex;
+  justify-content: center;
+}
+
+/* Marco con esquinas rojas: le da aire de prueba impresa, no de widget. */
+.cm-carnet-frame {
+  position: relative;
+  width: 100%;
+  max-width: 340px;
+  padding: 10px;
+  border: 1px solid var(--color-steel);
+  background: rgba(5, 5, 6, 0.7);
+  box-shadow: 0 30px 80px -40px rgba(0, 0, 0, 0.95);
+}
+.cm-carnet-frame::before,
+.cm-carnet-frame::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--color-blood-bright);
+}
+.cm-carnet-frame::before {
+  top: -1px;
+  left: -1px;
+  border-right: 0;
+  border-bottom: 0;
+}
+.cm-carnet-frame::after {
+  right: -1px;
+  bottom: -1px;
+  border-left: 0;
+  border-top: 0;
+}
+
+.cm-carnet-canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: var(--color-void);
+}
+
+.cm-carnet-side {
+  min-width: 0;
+}
+
+.cm-carnet-kicker {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--color-blood-ink);
+}
+
+.cm-carnet-h {
+  margin-top: 0.6rem;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 8vw, 3.2rem);
+  line-height: 0.92;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--color-bone);
+}
+
+.cm-carnet-p {
+  margin-top: 1rem;
+  max-width: 46ch;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--color-smoke);
+}
+
+.cm-carnet-data {
+  margin-top: 1.8rem;
+  border-top: 1px solid var(--color-steel);
+}
+.cm-carnet-data li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--color-steel);
+}
+.cm-carnet-data span {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--color-ash);
+}
+.cm-carnet-data strong {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 400;
+  letter-spacing: 0.03em;
+  text-align: right;
+  color: var(--color-bone);
+}
+
+.cm-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin-top: 1.8rem;
+}
+
+.cm-btn {
+  position: relative;
+  display: inline-flex;
+  min-height: 52px;
+  align-items: center;
+  justify-content: center;
+  padding: 0.9rem 1.5rem;
+  border: 1px solid var(--color-steel);
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-bone);
+  overflow: hidden;
+  isolation: isolate;
+  transition:
+    transform 0.18s var(--ease-brut),
+    border-color 0.24s var(--ease-brut),
+    color 0.24s var(--ease-brut);
+}
+.cm-btn > span {
+  position: relative;
+  z-index: 2;
+}
+.cm-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  transform: translate3d(0, 101%, 0);
+  transition: transform 0.28s var(--ease-brut);
+}
+
+.cm-btn-primary {
+  border-color: var(--color-blood);
+  background: var(--color-blood);
+}
+.cm-btn-primary::before {
+  background: var(--color-blood-bright);
+}
+.cm-btn-primary:hover::before,
+.cm-btn-primary:focus-visible::before {
+  transform: translate3d(0, 0, 0);
+}
+
+.cm-btn-ghost {
+  border-color: rgba(243, 241, 238, 0.24);
+  background: transparent;
+}
+.cm-btn-ghost::before {
+  background: var(--color-bone);
+}
+.cm-btn-ghost:hover,
+.cm-btn-ghost:focus-visible {
+  color: var(--color-void);
+}
+.cm-btn-ghost:hover::before,
+.cm-btn-ghost:focus-visible::before {
+  transform: translate3d(0, 0, 0);
+}
+
+.cm-btn:active {
+  transform: translate3d(0, 1px, 0) scale(0.99);
+}
+
+.cm-status:empty {
+  display: none;
+}
+.cm-status {
+  margin-top: 0.9rem;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  color: var(--color-blood-ink);
+}
+
+.cm-carnet-note {
+  margin-top: 1.1rem;
+  font-size: 0.78rem;
+  line-height: 1.6;
+  color: var(--color-ash);
+}
+.cm-carnet-note a {
+  color: var(--color-smoke);
+}
+.cm-carnet-note a:hover,
+.cm-carnet-note a:focus-visible {
+  color: var(--color-bone);
+}
+
+/* Sin carnet: invitacion sobria, no un formulario vacio. */
+.cm-empty {
+  position: relative;
+  margin-top: 3rem;
+  border: 1px solid var(--color-steel);
+  background: linear-gradient(180deg, var(--color-carbon), var(--color-ink));
+  padding: 2.6rem 1.4rem;
+  max-width: 46rem;
+}
+.cm-empty-mark {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 3.4rem;
+  line-height: 0.8;
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--color-blood-bright);
+}
+.cm-empty-h {
+  margin-top: 0.8rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.7rem, 7vw, 2.4rem);
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--color-bone);
+}
+.cm-empty-p {
+  margin-top: 0.9rem;
+  max-width: 44ch;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--color-smoke);
+}
+.cm-empty .cm-btn {
+  margin-top: 1.6rem;
+}
+
+@media (min-width: 900px) {
+  .cm-carnet {
+    grid-template-columns: minmax(300px, 340px) 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+  .cm-carnet-stage {
+    position: sticky;
+    top: 6rem;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Puerta al directo                                                   */
+/* ------------------------------------------------------------------ */
+
+.cm-directo {
+  position: relative;
+  overflow: hidden;
+  margin-top: 3rem;
+  border: 1px solid var(--color-steel);
+  background: linear-gradient(150deg, var(--color-carbon), var(--color-void) 70%);
+  padding: 2.4rem 1.4rem;
+}
+
+.cm-directo-glow {
+  position: absolute;
+  top: -40%;
+  right: -20%;
+  height: 60vmax;
+  width: 60vmax;
+  border-radius: 999px;
+  background: radial-gradient(
+    circle,
+    rgba(143, 17, 22, 0.34) 0%,
+    rgba(143, 17, 22, 0.06) 45%,
+    rgba(5, 5, 6, 0) 70%
+  );
+}
+
+.cm-directo-head {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.cm-directo-kicker {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--color-ash);
+}
+
+.cm-directo-date {
+  position: relative;
+  margin-top: 1.4rem;
+  font-family: var(--font-display);
+  font-size: clamp(3.6rem, 20vw, 7rem);
+  line-height: 0.82;
+  letter-spacing: 0.02em;
+  color: var(--color-bone);
+}
+
+.cm-directo-city {
+  position: relative;
+  margin-top: 0.7rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.9rem, 8vw, 3rem);
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--color-blood-ink);
+}
+
+.cm-directo-venue {
+  position: relative;
+  margin-top: 0.5rem;
+  max-width: 40ch;
+  font-size: 1rem;
+  color: var(--color-smoke);
+}
+
+.cm-directo-count {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.4rem 1rem;
+  margin-top: 1.8rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--color-steel);
+}
+.cm-directo-count-n {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 6vw, 2rem);
+  text-transform: uppercase;
+  color: var(--color-bone);
+}
+.cm-directo-count-l {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-ash);
+}
+
+.cm-directo-note {
+  position: relative;
+  margin-top: 1rem;
+  max-width: 46ch;
+  font-size: 0.8rem;
+  line-height: 1.6;
+  color: var(--color-ash);
+}
+
+.cm-directo .cm-btn {
+  position: relative;
+}
+
+@media (min-width: 768px) {
+  .cm-directo {
+    padding: 3.5rem 3rem;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Pie                                                                 */
+/* ------------------------------------------------------------------ */
+
+.cm-foot {
+  padding: 2.5rem 1.25rem 1rem;
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-ash);
+}
+
+/* ------------------------------------------------------------------ */
+/* Movimiento reducido: se apaga todo, se mantiene la estructura       */
+/* ------------------------------------------------------------------ */
+
+@media (prefers-reduced-motion: reduce) {
+  .cm-btn::before {
+    transition: none;
+  }
+  .cm-btn:active {
+    transform: none;
+  }
+}

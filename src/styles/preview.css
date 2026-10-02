@@ -1,0 +1,92 @@
+/* ------------------------------------------------------------------
+   Reproductor de fragmentos de 30 segundos (cortesia de Deezer).
+   Lo pinta TrackPreview. Un boton por corte con su barra de progreso.
+   ------------------------------------------------------------------ */
+
+.tp {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-height: 44px;
+  padding: 0 0.7rem 0 0.35rem;
+  border: 1px solid rgba(243, 241, 238, 0.22);
+  background: #17171b;
+  transition:
+    border-color 0.3s var(--ease-brut),
+    background-color 0.3s var(--ease-brut),
+    box-shadow 0.3s var(--ease-brut);
+}
+
+/* El corte que esta sonando se nota de un vistazo. */
+.tp.is-active {
+  border-color: var(--color-blood-bright);
+  background: rgba(143, 17, 22, 0.3);
+  box-shadow:
+    0 0 0 1px rgba(196, 22, 29, 0.55),
+    0 12px 30px -18px rgba(196, 22, 29, 0.95);
+}
+
+.tp-btn {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  flex: none;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(243, 241, 238, 0.12);
+  color: var(--color-bone);
+  cursor: pointer;
+  transition:
+    background-color 0.25s ease,
+    transform 0.25s var(--ease-brut);
+}
+
+.tp-btn:hover,
+.tp-btn:focus-visible {
+  background: var(--color-blood-bright);
+}
+
+.tp.is-active .tp-btn {
+  background: var(--color-blood-bright);
+}
+
+.tp-btn:active {
+  transform: scale(0.94);
+}
+
+.tp-bar {
+  position: relative;
+  width: 84px;
+  height: 4px;
+  overflow: hidden;
+  background: rgba(243, 241, 238, 0.16);
+}
+
+.tp-fill {
+  position: absolute;
+  inset: 0;
+  transform: scaleX(0);
+  transform-origin: left center;
+  background: linear-gradient(90deg, var(--color-blood), var(--color-blood-bright));
+  transition: transform 0.3s linear;
+}
+
+.tp-time {
+  min-width: 3.5rem;
+  font-family: var(--font-body);
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  font-variant-numeric: tabular-nums;
+  text-transform: uppercase;
+  color: var(--color-ash);
+}
+
+.tp.is-active .tp-time {
+  color: var(--color-bone);
+}
+
+.tp--compacto .tp-bar {
+  width: 56px;
+}
