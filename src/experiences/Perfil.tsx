@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Badge } from '../components/Badge';
-import { EasterEgg } from '../components/EasterEgg';
 import { SectionHeading } from '../components/SectionHeading';
 import { TrackPreview, tienePreview } from '../components/TrackPreview';
 import '../styles/perfil.css';
@@ -905,7 +904,6 @@ export function Perfil() {
     return (
       <>
         <Intro onStart={start} />
-        <EasterEgg />
       </>
     );
   }
@@ -920,7 +918,6 @@ export function Perfil() {
           reaction={reaction}
           onAnswer={answer}
         />
-        <EasterEgg />
       </>
     );
   }
@@ -929,7 +926,6 @@ export function Perfil() {
     return (
       <>
         <Reveal onDone={finishReveal} />
-        <EasterEgg />
       </>
     );
   }
@@ -963,7 +959,6 @@ export function Perfil() {
 
       {archiveOpen ? <Archive /> : null}
 
-      <EasterEgg />
     </div>
   );
 }

@@ -90,3 +90,40 @@
 .tp--compacto .tp-bar {
   width: 56px;
 }
+
+/* ------------------------------------------------------------------ */
+/* Caja del video oficial: solo aparece mientras suena un corte que     */
+/* va por YouTube. Discreta, abajo a la derecha, con su etiqueta.       */
+/* ------------------------------------------------------------------ */
+.vp-yt {
+  position: fixed;
+  right: 14px;
+  bottom: 74px;
+  z-index: 70;
+  width: 224px;
+  height: 126px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 12px;
+  background: #000;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.65);
+}
+
+.vp-yt[hidden] {
+  display: none;
+}
+
+.vp-yt > div,
+.vp-yt iframe {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+@media (max-width: 420px) {
+  .vp-yt {
+    right: 10px;
+    bottom: 66px;
+    width: 176px;
+    height: 99px;
+  }
+}

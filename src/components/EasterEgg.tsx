@@ -108,14 +108,21 @@ export function EasterEgg() {
     const onDocClick = (event: MouseEvent) => {
       const target = event.target as Element | null;
       if (!target) return;
-      const link = target.closest('header a');
-      if (!link) return;
-      const text = (link.textContent ?? '').replace(/\s+/g, ' ').trim();
-      if (!/^HDLR/i.test(text)) return;
+
+      // Vale el logo de la cabecera y tambien la palabra HDLR grande (puerta y
+      // antesala) y el propio emblema: es donde la gente toca por instinto.
+      const marca = target.closest('.interior-word, .cine-hdlr, .gate-logo, .interior-logo');
+      let acierto = Boolean(marca);
+      if (!acierto) {
+        const link = target.closest('header a');
+        const text = (link?.textContent ?? '').replace(/\s+/g, ' ').trim();
+        acierto = /^HDLR/i.test(text);
+      }
+      if (!acierto) return;
 
       const now = Date.now();
       const state = tapRef.current;
-      if (now - state.last > 700) state.count = 0;
+      if (now - state.last > 900) state.count = 0;
       state.count += 1;
       state.last = now;
       if (state.count >= 5) {

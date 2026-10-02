@@ -14,6 +14,7 @@ import { SoundToggle } from './lib/SoundToggle';
 import { ROUTES, useRoute, useScrollReset } from './lib/router';
 import { useRevealOnScroll } from './lib/useReveal';
 import { trackEvent } from './lib/trackEvent';
+import { EasterEgg } from './components/EasterEgg';
 
 const TITLES: Record<string, string> = {
   [ROUTES.entrada]: 'HDLR - El Universo',
@@ -70,6 +71,7 @@ export default function App() {
       </main>
       <Footer currentPath={path} />
       <SoundToggle />
+      <EasterEgg />
     </div>
   );
 }

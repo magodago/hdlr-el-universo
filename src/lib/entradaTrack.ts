@@ -1,82 +1,35 @@
 import previewsData from '../data/previews.json';
-import { suscribir } from './previewAudio';
-import { soundManager } from './sound';
+import { alternar, detenerSi, type FuentePreview } from './previewAudio';
 
 /**
- * Banda sonora de la entrada: el fragmento oficial de "Hijos de la ruina"
- * (Vol. 1, 2012), cortesia de Deezer. Es el corte que le da nombre al
- * proyecto.
+ * Banda sonora de la entrada: «Hijos de la ruina» (Vol. 1, 2012), el corte que
+ * da nombre al proyecto.
  *
- * Reglas:
- *  - Suena solo si la persona enciende el interruptor de sonido.
- *  - En bucle y a volumen bajo: acompaña la lectura, no la tapa.
- *  - Si arranca cualquier otro fragmento del catalogo, este se aparta y
- *    vuelve cuando el otro termina.
+ * Suena por el mismo reproductor unico que los fragmentos del catalogo: si
+ * alguien pulsa un corte de la lista, la entrada calla y suena lo que ha pedido.
+ * El audio va por el video oficial, asi que no depende de ninguna direccion que
+ * pueda caducar.
  */
 
-interface EntradaPreview {
-  url: string;
-  fuente: string;
-}
+export const CLAVE_ENTRADA = 'Hijos de la ruina';
 
-const PREVIEWS = previewsData as unknown as Record<string, EntradaPreview>;
+const PREVIEWS = previewsData as unknown as Record<string, FuentePreview>;
 
-export const TITULO_ENTRADA = 'Hijos de la ruina';
-
-let audio: HTMLAudioElement | null = null;
-let apartadoPorFragmento = false;
-
-function nodo(): HTMLAudioElement | null {
-  if (typeof window === 'undefined') return null;
-  const entrada = PREVIEWS[TITULO_ENTRADA];
-  if (!entrada?.url) return null;
-  if (!audio) {
-    audio = new Audio(entrada.url);
-    audio.loop = true;
-    audio.volume = 0.34;
-    audio.preload = 'none';
-  }
-  return audio;
-}
-
-/** Solo hay banda sonora si el corte tiene fragmento oficial registrado. */
+/** Hay audio para la entrada: solo entonces el interruptor enciende de verdad. */
 export function entradaDisponible(): boolean {
-  return Boolean(PREVIEWS[TITULO_ENTRADA]?.url);
+  const entrada = PREVIEWS[CLAVE_ENTRADA];
+  return Boolean(entrada?.youtube || entrada?.url);
 }
 
-export function fuenteEntrada(): string {
-  return PREVIEWS[TITULO_ENTRADA]?.fuente ?? '';
+/** Enciende la entrada, en bucle. Devuelve false si no hay nada que poner. */
+export function arrancarEntrada(): boolean {
+  const entrada = PREVIEWS[CLAVE_ENTRADA];
+  if (!entrada?.youtube && !entrada?.url) return false;
+  alternar(CLAVE_ENTRADA, entrada, { bucle: true });
+  return true;
 }
 
-export function arrancarEntrada(): void {
-  const el = nodo();
-  if (!el) return;
-  apartadoPorFragmento = false;
-  void el.play().catch(() => {
-    /* el navegador puede pedir otro gesto: se reintenta al siguiente toque */
-  });
-}
-
+/** Apaga la entrada si es la que esta sonando. */
 export function pararEntrada(): void {
-  if (!audio) return;
-  apartadoPorFragmento = false;
-  audio.pause();
+  detenerSi(CLAVE_ENTRADA);
 }
-
-/* Mientras suena un fragmento del catalogo, la banda sonora se aparta. */
-suscribir((estado) => {
-  if (!audio || !soundManager.isEnabled()) return;
-
-  if (estado.sonando) {
-    if (!audio.paused) {
-      apartadoPorFragmento = true;
-      audio.pause();
-    }
-    return;
-  }
-
-  if (apartadoPorFragmento) {
-    apartadoPorFragmento = false;
-    void audio.play().catch(() => undefined);
-  }
-});

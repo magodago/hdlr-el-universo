@@ -4,15 +4,17 @@ import { alternar, detenerSi, suscribir, type PreviewState } from '../lib/previe
 import '../styles/preview.css';
 
 interface EntradaPreview {
-  url: string;
-  fuente: string;
+  url?: string;
+  youtube?: string;
+  fuente?: string;
 }
 
 const PREVIEWS = previewsData as unknown as Record<string, EntradaPreview>;
 
 /** Hay fragmento para este corte: solo entonces se pinta el boton. */
 export function tienePreview(titulo: string): boolean {
-  return Boolean(PREVIEWS[titulo]?.url);
+  const entrada = PREVIEWS[titulo];
+  return Boolean(entrada?.youtube || entrada?.url);
 }
 
 interface TrackPreviewProps {
@@ -42,7 +44,7 @@ export function TrackPreview({ titulo, compacto = false }: TrackPreviewProps) {
     };
   }, [titulo]);
 
-  if (!entrada?.url) return null;
+  if (!entrada?.url && !entrada?.youtube) return null;
 
   const activo = estado.clave === titulo;
   const sonando = activo && estado.sonando;
@@ -58,9 +60,9 @@ export function TrackPreview({ titulo, compacto = false }: TrackPreviewProps) {
         aria-label={
           sonando
             ? `Pausar el fragmento de ${titulo}`
-            : `Escuchar 30 segundos de ${titulo}, fragmento cortesia de Deezer`
+            : `Escuchar 30 segundos de ${titulo}, audio oficial`
         }
-        onClick={() => alternar(titulo, entrada.url)}
+        onClick={() => alternar(titulo, entrada)}
       >
         {sonando ? (
           <svg width="15" height="15" viewBox="0 0 24 24" aria-hidden="true">
