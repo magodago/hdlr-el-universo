@@ -5,7 +5,8 @@ import { createPortal } from 'react-dom';
  * Easter egg muy discreto.
  *
  * No se anuncia en ningun sitio. Se desbloquea con dos gestos secretos:
- *  - cinco toques seguidos en el logo HDLR de la cabecera,
+ *  - cinco toques seguidos en la marca HDLR (el logo de la cabecera, la
+ *    palabra grande de la puerta y la antesala, o el propio emblema),
  *  - una pulsacion larga sobre la marca HDLR del pie.
  *
  * Ademas, nunca salta en la primera pantalla: hace falta haber explorado
@@ -20,10 +21,10 @@ import { createPortal } from 'react-dom';
 const EXPLORED_KEY = 'hdlr.ee.explored.v1';
 
 const LINES = [
-  'Esto lo hice por una persona.',
-  'Mi hija lleva tiempo escuchándoos.',
-  'Y pensé que, ya que sé construir cosas, podía construir algo para vosotros.',
-  'David.',
+  'ESTO LO HICE POR UNA PERSONA.',
+  'Mi hija Noa es fan vuestra.',
+  'Y pensé que, ya que sé construir cosas, podía construir algo bonito para vosotros y para ella.',
+  'DavidOS.',
 ];
 
 function readRoute(): string {
@@ -254,7 +255,7 @@ export function EasterEgg() {
           </div>
 
           {step >= 4 ? (
-            <p className="fade-in mt-9 font-display text-lg tracking-[0.3em] text-blood-ink uppercase">
+            <p className="fade-in mt-9 font-display text-lg tracking-[0.3em] text-blood-ink">
               {LINES[3]}
             </p>
           ) : null}
