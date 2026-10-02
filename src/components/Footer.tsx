@@ -57,7 +57,7 @@ export function Footer({ currentPath }: FooterProps) {
           </p>
           <Link
             to={ROUTES.entrada}
-            className="inline-flex min-h-[44px] items-center border border-bone/40 px-4 py-2 font-body text-xs font-semibold tracking-[0.24em] text-bone uppercase transition-colors hover:border-bone hover:bg-steel"
+            className="btn-outline px-4 py-2 font-body text-xs font-semibold tracking-[0.24em] uppercase"
           >
             Volver a la entrada
           </Link>

@@ -15,7 +15,7 @@ export function Proximamente({ path }: ProximamenteProps) {
   const abiertas = EXPERIENCES.filter((item) => item.status === 'listo');
 
   return (
-    <section className="relative flex min-h-[100svh] flex-col justify-center px-4 pt-32 pb-20 sm:px-8">
+    <section className="relative flex min-h-[100svh] flex-col justify-center overflow-hidden px-4 pt-32 pb-20 sm:px-8">
       <div className="tech-grid absolute inset-0 opacity-50" aria-hidden="true" />
       <div
         className="drift absolute top-[-20%] right-[-15%] h-[60vmax] w-[60vmax] rounded-full opacity-50"

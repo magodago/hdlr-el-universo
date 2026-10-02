@@ -71,7 +71,7 @@ export function Nav({ path }: NavProps) {
             className="group inline-flex min-h-[44px] items-center gap-2"
             onClick={() => trackEvent('nav_click', { from: path, to: ROUTES.entrada })}
           >
-            <span className="font-display text-2xl leading-none tracking-[0.06em] text-bone">
+            <span className="font-display text-xl leading-none tracking-[0.06em] text-bone sm:text-2xl">
               HDLR
             </span>
             <span className="hidden font-body text-[10px] font-semibold tracking-[0.34em] text-ash uppercase sm:inline">
@@ -79,7 +79,7 @@ export function Nav({ path }: NavProps) {
             </span>
           </Link>
 
-          <ul className="flex items-center gap-3 overflow-x-auto sm:gap-7">
+          <ul className="flex items-center gap-2 overflow-x-auto sm:gap-7">
             {PRIMARY.map((experience) => {
               const active = path === experience.slug;
               return (
@@ -88,13 +88,13 @@ export function Nav({ path }: NavProps) {
                     to={experience.slug}
                     data-active={active}
                     aria-current={active ? 'page' : undefined}
-                    className={`link-sweep inline-flex min-h-[44px] items-center font-body text-[11px] font-semibold tracking-[0.24em] uppercase transition-colors sm:text-xs ${
-                      active ? 'text-bone' : 'text-smoke hover:text-bone'
-                    }`}
+                    className="nav-link inline-flex min-h-[44px] items-center font-body text-[11px] font-semibold tracking-[0.15em] uppercase sm:text-xs sm:tracking-[0.24em]"
                     onClick={() => trackEvent('nav_click', { from: path, to: experience.slug })}
                   >
-                    <span className="text-blood-ink">{experience.n}</span>
-                    <span className="ml-1.5">{experience.short}</span>
+                    <span className="nav-inner">
+                      <span className="nav-num">{experience.n}</span>
+                      <span className="nav-label ml-1.5">{experience.short}</span>
+                    </span>
                   </Link>
                 </li>
               );

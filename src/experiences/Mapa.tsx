@@ -123,7 +123,7 @@ export function Mapa() {
       <section className="px-4 pb-16 sm:px-8">
         <div className="mx-auto grid max-w-[1400px] gap-8 lg:grid-cols-[1.25fr_0.75fr] lg:items-start">
           {/* Mapa */}
-          <div className="reveal panel relative p-3 sm:p-5">
+          <div className="reveal panel relative min-w-0 p-3 sm:p-5">
             <div
               className={`relative overflow-hidden${zoomed ? ' map-zoomed' : ''}`}
               style={{ aspectRatio: `${SPAIN_VIEWBOX.w} / ${SPAIN_VIEWBOX.h}` }}
@@ -132,7 +132,7 @@ export function Mapa() {
                 <button
                   type="button"
                   onClick={() => setZoomed(false)}
-                  className="absolute top-2 right-2 z-10 inline-flex min-h-[44px] items-center border border-bone/45 bg-void/80 px-4 py-2 font-display text-[11px] tracking-[0.2em] text-bone uppercase backdrop-blur-sm transition-colors hover:border-bone hover:bg-steel"
+                  className="btn-outline absolute top-2 right-2 z-10 px-4 py-2 font-display text-[11px] tracking-[0.2em] uppercase"
                 >
                   Ver todo
                 </button>
@@ -248,7 +248,7 @@ export function Mapa() {
           </div>
 
           {/* Panel */}
-          <div className="reveal space-y-6">
+          <div className="reveal min-w-0 space-y-6">
             <div className="panel p-5 sm:p-6" aria-live="polite">
               {selected ? (
                 <>
@@ -287,11 +287,7 @@ export function Mapa() {
                   setOnlyUpcoming((value) => !value);
                   trackEvent('map_filter_change', { onlyUpcoming: !onlyUpcoming });
                 }}
-                className={`inline-flex min-h-[44px] items-center border px-4 py-3 font-body text-[11px] font-semibold tracking-[0.14em] uppercase transition-colors ${
-                  onlyUpcoming
-                    ? 'border-blood-bright bg-blood text-bone'
-                    : 'border-bone/45 text-bone hover:border-bone hover:bg-steel'
-                }`}
+                className="btn-outline px-4 py-3 font-body text-[11px] font-semibold tracking-[0.14em] uppercase"
               >
                 Solo próximos
               </button>

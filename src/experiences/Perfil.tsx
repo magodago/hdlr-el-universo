@@ -188,7 +188,7 @@ function ShareCard({ results }: { results: RecommendationResult[] }) {
           <button
             type="button"
             onClick={copy}
-            className="inline-flex min-h-[44px] items-center border border-bone/45 px-5 py-3 font-display text-xs tracking-[0.2em] text-bone uppercase transition-colors hover:border-bone hover:bg-steel"
+            className="btn-outline px-5 py-3 font-display text-xs tracking-[0.2em] uppercase"
           >
             {copied ? 'Copiado' : 'Copiar texto'}
           </button>
@@ -270,11 +270,7 @@ function Recommender() {
                 setEra(option.value);
                 run({ era: option.value });
               }}
-              className={`inline-flex min-h-[44px] items-center border px-4 py-3 font-body text-xs font-semibold tracking-[0.12em] uppercase transition-colors ${
-                era === option.value
-                  ? 'border-blood-bright bg-blood text-bone'
-                  : 'border-bone/45 text-bone hover:border-bone hover:bg-steel'
-              }`}
+              className="btn-outline px-4 py-3 font-body text-xs font-semibold tracking-[0.12em] uppercase"
             >
               {option.label}
             </button>

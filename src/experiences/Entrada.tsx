@@ -130,7 +130,7 @@ export function Entrada() {
       {/* ------------------------------------------------------------ */}
       {/* Escena 1: portada compacta                                    */}
       {/* ------------------------------------------------------------ */}
-      <section className="relative overflow-hidden px-4 pt-24 pb-10 sm:px-8 sm:pt-28">
+      <section className="relative overflow-hidden px-4 pt-20 pb-10 sm:px-8 sm:pt-28">
         <div className="tech-grid absolute inset-0 opacity-60" aria-hidden="true" />
         <div
           className="drift absolute top-[-30%] right-[-20%] h-[60vmax] w-[60vmax] rounded-full opacity-50"
@@ -141,7 +141,7 @@ export function Entrada() {
           }}
         />
 
-        <div className="relative z-10 mx-auto grid w-full max-w-[1400px] gap-6 lg:grid-cols-[1.06fr_0.94fr] lg:items-center lg:gap-14">
+        <div className="relative z-10 mx-auto grid w-full max-w-[1400px] gap-5 lg:grid-cols-[1.06fr_0.94fr] lg:items-center lg:gap-14">
           <div>
             <p className="rise font-body text-[11px] font-semibold tracking-[0.3em] text-smoke uppercase">
               Natos, Waor y Recycled J
@@ -150,7 +150,7 @@ export function Entrada() {
             <h1
               ref={contentRef}
               tabIndex={-1}
-              className="rise focus-flat mt-4 font-display text-[clamp(2.8rem,9vw,6.4rem)] leading-[0.88] text-bone outline-none [animation-delay:100ms]"
+              className="rise focus-flat mt-3 font-display text-[clamp(2.8rem,9vw,6.4rem)] leading-[0.88] text-bone outline-none [animation-delay:100ms]"
             >
               HIJOS
               <br />
@@ -164,13 +164,13 @@ export function Entrada() {
               </span>
             </h1>
 
-            <p className="fade-in mt-5 max-w-xl text-base leading-relaxed text-smoke [animation-delay:300ms] sm:text-lg">
+            <p className="fade-in mt-4 max-w-xl text-base leading-relaxed text-smoke [animation-delay:300ms] sm:text-lg">
               Una experiencia interactiva para entrar en el universo de Hijos de la Ruina: tres
               nombres, cuatro volúmenes y una gira que vuelve a poner el rap español en recintos que
               no le correspondían. Todo lo que se cuenta aquí lleva su fuente.
             </p>
 
-            <div className="fade-in mt-6 flex flex-col gap-3 [animation-delay:420ms] sm:flex-row sm:flex-wrap sm:items-center">
+            <div className="fade-in mt-5 flex flex-col gap-3 [animation-delay:420ms] sm:flex-row sm:flex-wrap sm:items-center">
               <Link
                 to={ROUTES.perfil}
                 className="btn-blood inline-flex min-h-[54px] items-center justify-center border border-blood-bright/70 px-6 py-3.5"
@@ -182,11 +182,14 @@ export function Entrada() {
               </Link>
               <Link
                 to={ROUTES.mapa}
-                className="inline-flex min-h-[54px] items-center justify-center border border-bone/60 bg-steel/60 px-6 py-3.5 text-bone transition-colors hover:border-bone hover:bg-steel"
+                className="btn-outline btn-lg px-6 py-3.5"
                 onClick={() => trackEvent('cta_click', { id: 'entrada_a_mapa' })}
               >
-                <span className="font-display text-base tracking-[0.24em] text-bone uppercase">
+                <span className="font-display text-base tracking-[0.24em] uppercase">
                   03 Mapa
+                </span>
+                <span className="btn-arrow font-display text-base leading-none" aria-hidden="true">
+                  →
                 </span>
               </Link>
             </div>
@@ -214,17 +217,22 @@ export function Entrada() {
                 </p>
                 <Link
                   to={ROUTES.mapa}
-                  className="mt-4 inline-flex min-h-[44px] items-center border border-bone/60 bg-steel/60 px-4 py-3 font-display text-xs tracking-[0.2em] text-bone uppercase transition-colors hover:border-bone hover:bg-steel"
+                  className="btn-outline mt-3 w-full px-4 py-3 sm:w-auto"
                   onClick={() => trackEvent('cta_click', { id: 'entrada_siguiente_parada' })}
                 >
-                  03 Mapa: las {concerts.length} plazas
+                  <span className="font-display text-[13px] tracking-[0.18em] uppercase">
+                    03 Mapa: las {concerts.length} plazas
+                  </span>
+                  <span className="btn-arrow font-display text-[13px] leading-none" aria-hidden="true">
+                    →
+                  </span>
                 </Link>
               </div>
             ) : null}
           </aside>
         </div>
 
-        <div className="relative z-10 mx-auto mt-8 flex w-full max-w-[1400px] flex-wrap items-center justify-between gap-3 border-t border-steel pt-4">
+        <div className="relative z-10 mx-auto mt-6 flex w-full max-w-[1400px] flex-wrap items-center justify-between gap-3 border-t border-steel pt-4">
           <p className="font-body text-xs tracking-[0.2em] text-ash uppercase">
             {volumes.length} volúmenes · {totalTracks} cortes documentados · {concerts.length} plazas
             de gira
