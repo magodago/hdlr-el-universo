@@ -131,6 +131,7 @@ export const allSources: { label: string; url: string }[] = Array.from(
   new Map(
     [
       { label: 'Web oficial de Natos y Waor', url: 'https://natosywaor.com/pages/biografia-natos-y-waor' },
+      { label: 'Natos y Waor: página oficial de conciertos (fechas de la gira 2026)', url: 'https://natosywaor.com/pages/shows' },
       { label: 'Wikipedia: Natos y Waor', url: 'https://es.wikipedia.org/wiki/Natos_y_Waor' },
       { label: 'Wikipedia: Recycled J', url: 'https://es.wikipedia.org/wiki/Recycled_J' },
       { label: 'Apple Music: Hijos de la ruina, vol. 3', url: 'https://music.apple.com/es/album/hijos-de-la-ruina-vol-3/1637574445' },

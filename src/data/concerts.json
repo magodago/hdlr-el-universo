@@ -1,6 +1,7 @@
 {
-  "_nota": "Recintos y fechas de la gira HDLR 2026 confirmadas por la web oficial de Natos y Waor y por prensa. Las coordenadas son datos geograficos publicos y se usan solo para situar el punto en el mapa.",
+  "_nota": "Recintos y fechas de la gira HDLR 2026. Las fechas estan en la pagina oficial de conciertos de Natos y Waor (natosywaor.com/pages/shows) y en prensa (LOS40, 20minutos). Los recintos de varias plazas proceden de la prensa y de los listados de venta de entradas, no de la web oficial, y se etiquetan en consecuencia. Las coordenadas son datos geograficos publicos y se usan solo para situar el punto en el mapa.",
   "_fuentes": [
+    "https://natosywaor.com/pages/shows",
     "https://natosywaor.com/pages/biografia-natos-y-waor",
     "https://los40.com/2025/06/11/entradas-de-la-gira-de-hijos-de-la-ruina-en-2026-cuando-y-donde-comprarlas/",
     "https://www.20minutos.es/noticia/5719921/0/hijos-ruina-anuncian-nuevo-album-una-gira-por-espana-para-2026/",

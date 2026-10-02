@@ -1,3 +1,5 @@
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { Badge } from '../components/Badge';
 import { Marquee } from '../components/Marquee';
 import { SectionHeading } from '../components/SectionHeading';
@@ -10,49 +12,146 @@ function today(): string {
   return new Date().toISOString().slice(0, 10);
 }
 
+function prefersReducedMotion(): boolean {
+  return (
+    typeof window !== 'undefined' &&
+    typeof window.matchMedia === 'function' &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  );
+}
+
 const FACTS = [
-  { value: '4', label: 'Volúmenes de Hijos de la Ruina', badge: 'real' as const },
-  { value: '15', label: 'Años de carrera de Natos y Waor', badge: 'real' as const },
-  { value: '60.000', label: 'Personas en el Metropolitano, 7 de junio de 2025', badge: 'real' as const },
-  { value: '27', label: 'Entregas de la serie Barras Bravas', badge: 'real' as const },
+  { value: '4', label: 'Volúmenes de Hijos de la Ruina' },
+  { value: '15', label: 'Años de carrera de Natos y Waor' },
+  { value: '60.000', label: 'Personas en el Metropolitano, 7 de junio de 2025' },
+  { value: '27', label: 'Entregas de la serie Barras Bravas' },
 ];
 
+/* ------------------------------------------------------------------ */
+/* La puerta: pantalla completa de entrada                             */
+/* ------------------------------------------------------------------ */
+
+function Gate({ onEnter, exiting }: { onEnter: () => void; exiting: boolean }) {
+  return (
+    <section
+      className={`gate${exiting ? ' is-exiting' : ''}`}
+      aria-label="Entrada al universo HDLR"
+    >
+      <div className="gate-glow" aria-hidden="true" />
+      <div className="gate-texture" aria-hidden="true" />
+
+      <h1 className="gate-word gate-front">HDLR</h1>
+      <p className="gate-sub gate-front">El Universo</p>
+      <p className="gate-question gate-front">
+        ¿Vienes a la <em>Ruina</em>?
+      </p>
+
+      <button
+        type="button"
+        onClick={onEnter}
+        className="gate-enter gate-front group mt-3 inline-flex min-h-[66px] w-[min(20rem,86vw)] items-center justify-center gap-4 border border-bone/25 bg-blood px-8 py-4"
+      >
+        <span className="font-display text-xl leading-none tracking-[0.3em] text-bone uppercase">
+          Entrar
+        </span>
+        <span
+          aria-hidden="true"
+          className="font-display text-2xl leading-none text-bone/85 transition-transform duration-300 group-hover:translate-x-1"
+        >
+          →
+        </span>
+      </button>
+
+      <p className="gate-front mt-1 font-body text-[11px] tracking-[0.14em] text-smoke uppercase opacity-80">
+        Sin registro ni cookies
+      </p>
+    </section>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* Vista                                                               */
+/* ------------------------------------------------------------------ */
+
 export function Entrada() {
+  const [started, setStarted] = useState(false);
+  const [gone, setGone] = useState(false);
+  const contentRef = useRef<HTMLHeadingElement>(null);
+  const reduced = useMemo(prefersReducedMotion, []);
+
+  // Bloquea el scroll mientras la puerta esta en pie.
+  useEffect(() => {
+    if (started) return;
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = previous;
+    };
+  }, [started]);
+
+  // Al entrar, el foco pasa al titular para lectores de pantalla y teclado.
+  useEffect(() => {
+    if (started) contentRef.current?.focus({ preventScroll: true });
+  }, [started]);
+
+  function enter() {
+    if (started) return;
+    trackEvent('gate_enter', { path: ROUTES.entrada });
+    setStarted(true);
+    if (reduced) {
+      setGone(true);
+      return;
+    }
+    window.setTimeout(() => setGone(true), 1080);
+  }
+
   const upcoming = concerts.filter((concert) => concert.dateISO >= today());
   const next = upcoming[0];
   const totalTracks = volumes.reduce((sum, volume) => sum + volume.trackCount, 0);
 
+  if (!started) {
+    // La puerta se monta en <body> para no quedar atrapada en el contexto de
+    // apilado de <main> (que anima con transform) y cubrir de verdad la pantalla.
+    return createPortal(<Gate onEnter={enter} exiting={false} />, document.body);
+  }
+
   return (
     <div>
+      {!gone
+        ? createPortal(
+            <>
+              <Gate onEnter={enter} exiting />
+              <div className="gate-curtain" aria-hidden="true" />
+            </>,
+            document.body,
+          )
+        : null}
+
       {/* ------------------------------------------------------------ */}
-      {/* Escena 1: portada                                             */}
+      {/* Escena 1: portada compacta                                    */}
       {/* ------------------------------------------------------------ */}
-      <section className="relative flex min-h-[100svh] flex-col justify-between overflow-hidden px-4 pt-24 pb-8 sm:px-8">
-        <div className="tech-grid absolute inset-0 opacity-70" aria-hidden="true" />
+      <section className="relative overflow-hidden px-4 pt-24 pb-10 sm:px-8 sm:pt-28">
+        <div className="tech-grid absolute inset-0 opacity-60" aria-hidden="true" />
         <div
-          className="drift absolute top-[-28%] right-[-18%] h-[70vmax] w-[70vmax] rounded-full opacity-60"
+          className="drift absolute top-[-30%] right-[-20%] h-[60vmax] w-[60vmax] rounded-full opacity-50"
           aria-hidden="true"
           style={{
             background:
-              'radial-gradient(circle, rgba(143,17,22,0.42) 0%, rgba(143,17,22,0.12) 38%, rgba(5,5,6,0) 70%)',
+              'radial-gradient(circle, rgba(143,17,22,0.38) 0%, rgba(143,17,22,0.1) 40%, rgba(5,5,6,0) 72%)',
           }}
         />
-        <div
-          className="absolute inset-x-0 top-[18%] flex justify-center overflow-hidden"
-          aria-hidden="true"
-        >
-          <span className="text-outline m-0 font-display text-[24vw] leading-[0.8] whitespace-nowrap opacity-[0.55] select-none">
-            HIJOS DE LA RUINA
-          </span>
-        </div>
 
-        <div className="relative z-10 mx-auto grid w-full max-w-[1400px] gap-10 lg:grid-cols-[1.06fr_0.94fr] lg:items-center lg:gap-16">
+        <div className="relative z-10 mx-auto grid w-full max-w-[1400px] gap-6 lg:grid-cols-[1.06fr_0.94fr] lg:items-center lg:gap-14">
           <div>
-            <p className="rise font-body text-[11px] font-semibold tracking-[0.36em] text-smoke uppercase">
-              Proyecto paralelo de Natos y Waor con Recycled J
+            <p className="rise font-body text-[11px] font-semibold tracking-[0.3em] text-smoke uppercase">
+              Natos, Waor y Recycled J
             </p>
 
-            <h1 className="rise mt-5 font-display text-[clamp(2.6rem,8.6vw,6.4rem)] leading-[0.88] text-bone [animation-delay:120ms]">
+            <h1
+              ref={contentRef}
+              tabIndex={-1}
+              className="rise focus-flat mt-4 font-display text-[clamp(2.8rem,9vw,6.4rem)] leading-[0.88] text-bone outline-none [animation-delay:100ms]"
+            >
               HIJOS
               <br />
               DE LA{' '}
@@ -65,95 +164,78 @@ export function Entrada() {
               </span>
             </h1>
 
-            <p className="fade-in mt-7 max-w-xl text-base leading-relaxed text-smoke [animation-delay:420ms] sm:text-lg">
+            <p className="fade-in mt-5 max-w-xl text-base leading-relaxed text-smoke [animation-delay:300ms] sm:text-lg">
               Una experiencia interactiva para entrar en el universo de Hijos de la Ruina: tres
               nombres, cuatro volúmenes y una gira que vuelve a poner el rap español en recintos que
               no le correspondían. Todo lo que se cuenta aquí lleva su fuente.
             </p>
 
-            <div className="fade-in mt-8 flex flex-wrap items-center gap-3 [animation-delay:540ms]">
+            <div className="fade-in mt-6 flex flex-col gap-3 [animation-delay:420ms] sm:flex-row sm:flex-wrap sm:items-center">
               <Link
                 to={ROUTES.perfil}
-                className="btn-blood group inline-flex items-center gap-3 border border-bone/25 px-6 py-4"
+                className="btn-blood inline-flex min-h-[54px] items-center justify-center border border-blood-bright/70 px-6 py-3.5"
                 onClick={() => trackEvent('cta_click', { id: 'entrada_a_perfil' })}
               >
-                <span className="font-display text-sm tracking-[0.2em] text-bone uppercase">
-                  02 Perfil: quién está detrás
+                <span className="font-display text-base tracking-[0.24em] text-bone uppercase">
+                  02 Perfil
                 </span>
               </Link>
               <Link
                 to={ROUTES.mapa}
-                className="inline-flex items-center gap-3 border border-steel px-6 py-4 text-smoke transition-colors hover:border-bone/40 hover:text-bone"
+                className="inline-flex min-h-[54px] items-center justify-center border border-bone/60 bg-steel/60 px-6 py-3.5 text-bone transition-colors hover:border-bone hover:bg-steel"
                 onClick={() => trackEvent('cta_click', { id: 'entrada_a_mapa' })}
               >
-                <span className="font-display text-sm tracking-[0.2em] uppercase">
-                  03 Mapa: gira 2026
+                <span className="font-display text-base tracking-[0.24em] text-bone uppercase">
+                  03 Mapa
                 </span>
               </Link>
             </div>
           </div>
 
-          <aside className="fade-in flex flex-col gap-3 [animation-delay:660ms]">
+          <aside className="fade-in [animation-delay:520ms]">
             {next ? (
-              <div className="panel p-6">
-                <div className="flex items-center justify-between gap-3">
+              <div className="panel p-5 sm:p-6">
+                <div className="flex flex-wrap items-center justify-between gap-2">
                   <p className="font-body text-[10px] font-semibold tracking-[0.3em] text-blood-ink uppercase">
                     Próxima parada
                   </p>
-                  <Badge kind="real" />
+                  <Badge kind={next.confirmed ? 'real' : 'demo'} />
                 </div>
-                <p className="mt-4 font-display text-3xl leading-none text-bone uppercase sm:text-4xl">
+                <p className="mt-3 font-display text-3xl leading-none text-bone uppercase sm:text-4xl">
                   {next.city}
                 </p>
-                <p className="mt-3 text-sm text-smoke">{next.venue}</p>
-                <p className="mt-1 font-body text-xs tracking-[0.18em] text-ash uppercase">
+                <p className="mt-2 text-sm text-smoke">{next.venue}</p>
+                <p className="mt-1 font-body text-xs tracking-[0.18em] text-bone uppercase">
                   {next.dateLabel}
+                </p>
+                <p className="mt-3 text-xs leading-relaxed text-ash">
+                  Fecha publicada en la web oficial de conciertos de Natos y Waor. El recinto sale de
+                  la prensa y de los listados de venta de entradas.
                 </p>
                 <Link
                   to={ROUTES.mapa}
-                  className="link-sweep mt-6 inline-block font-body text-[11px] font-semibold tracking-[0.24em] text-smoke uppercase transition-colors hover:text-bone"
+                  className="mt-4 inline-flex min-h-[44px] items-center border border-bone/60 bg-steel/60 px-4 py-3 font-display text-xs tracking-[0.2em] text-bone uppercase transition-colors hover:border-bone hover:bg-steel"
                   onClick={() => trackEvent('cta_click', { id: 'entrada_siguiente_parada' })}
                 >
-                  Ver las {concerts.length} plazas en el mapa
+                  03 Mapa: las {concerts.length} plazas
                 </Link>
               </div>
             ) : null}
-
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-              {EXPERIENCES.map((experience) => (
-                <Link
-                  key={experience.slug}
-                  to={ROUTES[experience.slug as keyof typeof ROUTES] ?? ROUTES.entrada}
-                  className="group panel flex flex-col p-4"
-                  onClick={() => trackEvent('experience_open', { slug: experience.slug })}
-                >
-                  <span className="font-display text-2xl leading-none text-blood-bright">
-                    {experience.n}
-                  </span>
-                  <span className="mt-3 font-display text-sm tracking-[0.16em] text-bone uppercase">
-                    {experience.title}
-                  </span>
-                  <span className="mt-2 font-body text-[10px] font-semibold tracking-[0.22em] uppercase">
-                    {experience.status === 'listo' ? (
-                      <span className="text-smoke">Disponible</span>
-                    ) : (
-                      <span className="text-ash">Próxima entrega</span>
-                    )}
-                  </span>
-                </Link>
-              ))}
-            </div>
           </aside>
         </div>
 
-        <div className="relative z-10 mx-auto flex w-full max-w-[1400px] flex-wrap items-end justify-between gap-4 border-t border-steel pt-5">
+        <div className="relative z-10 mx-auto mt-8 flex w-full max-w-[1400px] flex-wrap items-center justify-between gap-3 border-t border-steel pt-4">
           <p className="font-body text-xs tracking-[0.2em] text-ash uppercase">
             {volumes.length} volúmenes · {totalTracks} cortes documentados · {concerts.length} plazas
             de gira
           </p>
           <p className="font-body text-xs tracking-[0.2em] text-ash uppercase">
-            Desliza para entrar
+            Baja para recorrer el universo
           </p>
+        </div>
+
+        <div className="watermark-band relative z-10 mx-auto w-full max-w-[1400px]" aria-hidden="true">
+          <span>HIJOS DE LA RUINA</span>
         </div>
       </section>
 
@@ -172,7 +254,7 @@ export function Entrada() {
       {/* ------------------------------------------------------------ */}
       {/* Escena 2: el nombre                                           */}
       {/* ------------------------------------------------------------ */}
-      <section className="relative px-4 py-24 sm:px-8 sm:py-32">
+      <section className="relative px-4 py-20 sm:px-8 sm:py-32">
         <div className="mx-auto max-w-[1400px]">
           <SectionHeading
             index="El nombre"
@@ -180,7 +262,7 @@ export function Entrada() {
             lead="Natos y Waor son un dúo de rap madrileño que se conoció en 2010 en las batallas de gallos. Con Recycled J montaron en 2012 una segunda línea de trabajo firmada por los tres. Esa línea se llama Hijos de la Ruina."
           />
 
-          <div className="mt-14 grid gap-px border border-steel bg-steel md:grid-cols-3">
+          <div className="mt-12 grid gap-px border border-steel bg-steel md:grid-cols-3">
             {[
               {
                 k: 'Qué es',
@@ -237,7 +319,7 @@ export function Entrada() {
                   href={member.source}
                   target="_blank"
                   rel="noreferrer noopener"
-                  className="link-sweep relative mt-5 inline-block text-[11px] font-semibold tracking-[0.2em] text-smoke uppercase hover:text-bone"
+                  className="link-sweep relative mt-5 inline-flex min-h-[44px] items-center text-[11px] font-semibold tracking-[0.2em] text-smoke uppercase hover:text-bone"
                 >
                   Fuente
                 </a>
@@ -247,10 +329,10 @@ export function Entrada() {
           <div className="mt-8">
             <Link
               to={ROUTES.perfil}
-              className="link-sweep font-display text-sm tracking-[0.24em] text-bone uppercase"
+              className="link-sweep inline-flex min-h-[44px] items-center font-display text-sm tracking-[0.24em] text-bone uppercase"
               onClick={() => trackEvent('cta_click', { id: 'entrada_tres_nombres' })}
             >
-              Ver el perfil completo, con los cuatro volúmenes
+              02 Perfil: con los cuatro volúmenes
             </Link>
           </div>
         </div>
@@ -336,11 +418,11 @@ export function Entrada() {
               </p>
               <Link
                 to={ROUTES.mapa}
-                className="btn-blood mt-8 inline-flex items-center border border-bone/25 px-6 py-4"
+                className="btn-blood mt-8 inline-flex min-h-[52px] items-center border border-bone/25 px-6 py-3.5"
                 onClick={() => trackEvent('cta_click', { id: 'entrada_giro_mapa' })}
               >
                 <span className="font-display text-sm tracking-[0.2em] text-bone uppercase">
-                  Abrir el mapa
+                  03 Mapa
                 </span>
               </Link>
             </div>
@@ -348,9 +430,12 @@ export function Entrada() {
             <div className="reveal panel p-6 sm:p-8">
               {next ? (
                 <>
-                  <p className="font-body text-[11px] font-semibold tracking-[0.3em] text-blood-ink uppercase">
-                    Próxima parada
-                  </p>
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <p className="font-body text-[11px] font-semibold tracking-[0.3em] text-blood-ink uppercase">
+                      Próxima parada
+                    </p>
+                    <Badge kind={next.confirmed ? 'real' : 'demo'} />
+                  </div>
                   <p className="mt-4 font-display text-[clamp(2rem,5vw,3.2rem)] text-bone">
                     {next.city}
                   </p>
@@ -358,12 +443,6 @@ export function Entrada() {
                   <p className="mt-6 font-display text-lg tracking-[0.1em] text-bone">
                     {next.dateLabel}
                   </p>
-                  {!next.confirmed ? (
-                    <p className="mt-4 flex items-center gap-2 text-xs text-ash">
-                      <Badge kind="demo" />
-                      Recinto sin confirmar en la web oficial.
-                    </p>
-                  ) : null}
                 </>
               ) : (
                 <p className="text-sm leading-relaxed text-smoke">
@@ -371,8 +450,8 @@ export function Entrada() {
                 </p>
               )}
               <p className="mt-8 border-t border-steel pt-4 text-xs leading-relaxed text-ash">
-                Fuentes: web oficial de Natos y Waor, LOS40 y 20minutos para las fechas; listados de
-                venta de entradas para el recinto sin confirmar.
+                Fuentes: web oficial de Natos y Waor para las fechas, y prensa y listados de venta de
+                entradas para los recintos. El recinto sin confirmar en la web oficial va marcado DEMO.
               </p>
             </div>
           </div>

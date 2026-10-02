@@ -64,11 +64,11 @@ export function Nav({ path }: NavProps) {
       >
         <nav
           aria-label="Navegación principal"
-          className="mx-auto flex max-w-[1400px] items-center justify-between gap-4 px-4 py-3 sm:px-8"
+          className="mx-auto flex max-w-[1400px] items-center justify-between gap-4 px-4 py-2 sm:px-8"
         >
           <Link
             to={ROUTES.entrada}
-            className="group flex items-baseline gap-2"
+            className="group inline-flex min-h-[44px] items-center gap-2"
             onClick={() => trackEvent('nav_click', { from: path, to: ROUTES.entrada })}
           >
             <span className="font-display text-2xl leading-none tracking-[0.06em] text-bone">
@@ -88,7 +88,7 @@ export function Nav({ path }: NavProps) {
                     to={experience.slug}
                     data-active={active}
                     aria-current={active ? 'page' : undefined}
-                    className={`link-sweep font-body text-[11px] font-semibold tracking-[0.24em] uppercase transition-colors sm:text-xs ${
+                    className={`link-sweep inline-flex min-h-[44px] items-center font-body text-[11px] font-semibold tracking-[0.24em] uppercase transition-colors sm:text-xs ${
                       active ? 'text-bone' : 'text-smoke hover:text-bone'
                     }`}
                     onClick={() => trackEvent('nav_click', { from: path, to: experience.slug })}

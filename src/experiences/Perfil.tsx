@@ -116,6 +116,89 @@ function VolumeBlock({ volumeId, defaultOpen }: { volumeId: string; defaultOpen:
 }
 
 /* ------------------------------------------------------------------ */
+/* Tarjeta para compartir                                              */
+/* ------------------------------------------------------------------ */
+
+function buildShareText(results: RecommendationResult[]): string {
+  const top = results[0];
+  if (!top) {
+    return 'HDLR, El Universo. Hijos de la Ruina: cuatro volúmenes de Natos, Waor y Recycled J y una gira 2026.';
+  }
+  return `Con el filtro de HDLR, El Universo me sale "${top.track.title}" (${top.track.volumeTitle}, ${top.track.year}). Hijos de la Ruina: cuatro volúmenes de Natos, Waor y Recycled J.`;
+}
+
+function ShareCard({ results }: { results: RecommendationResult[] }) {
+  const [copied, setCopied] = useState(false);
+  const top = results[0];
+  const canShare =
+    typeof navigator !== 'undefined' && typeof navigator.share === 'function';
+  const url = typeof window !== 'undefined' ? window.location.href : '';
+
+  async function copy() {
+    try {
+      await navigator.clipboard.writeText(`${buildShareText(results)} ${url}`);
+      setCopied(true);
+      trackEvent('share_card', { via: 'copy', track: top?.track.id ?? 'ninguno' });
+      window.setTimeout(() => setCopied(false), 2200);
+    } catch {
+      /* portapapeles no disponible: no se rompe nada */
+    }
+  }
+
+  async function share() {
+    try {
+      await navigator.share({
+        title: 'HDLR, El Universo',
+        text: buildShareText(results),
+        url,
+      });
+      trackEvent('share_card', { via: 'nativo', track: top?.track.id ?? 'ninguno' });
+    } catch {
+      /* el usuario ha cerrado el diálogo del sistema */
+    }
+  }
+
+  return (
+    <div className="relative mt-8 overflow-hidden border border-blood-bright/45 bg-void p-5 sm:p-6">
+      <div className="tech-grid absolute inset-0 opacity-40" aria-hidden="true" />
+      <div className="relative">
+        <p className="font-body text-[10px] font-semibold tracking-[0.3em] text-blood-ink uppercase">
+          Tarjeta para compartir
+        </p>
+        <p className="mt-3 font-display text-2xl leading-none text-bone sm:text-3xl">
+          {top ? top.track.title : 'Sin corte con estos filtros'}
+        </p>
+        <p className="mt-2 font-body text-xs tracking-[0.16em] text-smoke uppercase">
+          {top ? `${top.track.volumeTitle} · ${top.track.year}` : 'Cambia los criterios'}
+        </p>
+        <p className="mt-4 max-w-lg text-xs leading-relaxed text-ash">
+          Se genera en tu dispositivo con las reglas del motor local. No se envía a ningún servidor
+          ni se guarda nada.
+        </p>
+        <div className="mt-5 flex flex-wrap gap-3">
+          {canShare ? (
+            <button
+              type="button"
+              onClick={share}
+              className="btn-blood inline-flex min-h-[44px] items-center border border-bone/25 px-5 py-3 font-display text-xs tracking-[0.2em] text-bone uppercase"
+            >
+              Compartir
+            </button>
+          ) : null}
+          <button
+            type="button"
+            onClick={copy}
+            className="inline-flex min-h-[44px] items-center border border-bone/45 px-5 py-3 font-display text-xs tracking-[0.2em] text-bone uppercase transition-colors hover:border-bone hover:bg-steel"
+          >
+            {copied ? 'Copiado' : 'Copiar texto'}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
 /* Motor de recomendacion local                                        */
 /* ------------------------------------------------------------------ */
 
@@ -187,10 +270,10 @@ function Recommender() {
                 setEra(option.value);
                 run({ era: option.value });
               }}
-              className={`border px-4 py-2 font-body text-xs font-semibold tracking-[0.12em] uppercase transition-colors ${
+              className={`inline-flex min-h-[44px] items-center border px-4 py-3 font-body text-xs font-semibold tracking-[0.12em] uppercase transition-colors ${
                 era === option.value
                   ? 'border-blood-bright bg-blood text-bone'
-                  : 'border-steel text-smoke hover:border-bone/40 hover:text-bone'
+                  : 'border-bone/45 text-bone hover:border-bone hover:bg-steel'
               }`}
             >
               {option.label}
@@ -248,6 +331,8 @@ function Recommender() {
         )}
       </ul>
 
+      <ShareCard results={results} />
+
       <p className="mt-5 text-xs leading-relaxed text-ash">
         Puntuación calculada en tu dispositivo a partir de campos verificables: año, volumen,
         duración, colaboraciones y condición de adelanto. No se guarda ningún perfil de usuario y no
@@ -264,7 +349,7 @@ function Recommender() {
 export function Perfil() {
   return (
     <div>
-      <section className="relative overflow-hidden px-4 pt-32 pb-16 sm:px-8 sm:pt-40">
+      <section className="relative overflow-hidden px-4 pt-24 pb-16 sm:px-8 sm:pt-32">
         <div className="tech-grid absolute inset-0 opacity-50" aria-hidden="true" />
         <div className="relative mx-auto max-w-[1400px]">
           <p className="rise font-body text-[11px] font-semibold tracking-[0.36em] text-blood-ink uppercase">

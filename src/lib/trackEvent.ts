@@ -14,6 +14,7 @@
 
 export type TrackEventName =
   | 'app_view'
+  | 'gate_enter'
   | 'experience_open'
   | 'experience_locked'
   | 'nav_click'
@@ -24,6 +25,7 @@ export type TrackEventName =
   | 'map_filter_change'
   | 'recommender_run'
   | 'recommender_pick'
+  | 'share_card'
   | 'timeline_filter_change';
 
 export interface TrackEventPayload {

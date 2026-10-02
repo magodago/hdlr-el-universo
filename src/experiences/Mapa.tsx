@@ -69,6 +69,7 @@ export function Mapa() {
     return (upcoming ?? concerts[concerts.length - 1])?.id ?? null;
   });
   const [onlyUpcoming, setOnlyUpcoming] = useState(false);
+  const [zoomed, setZoomed] = useState(false);
 
   const hoy = today();
   const visible = useMemo(
@@ -77,8 +78,19 @@ export function Mapa() {
   );
   const selected: Concert | undefined = concerts.find((concert) => concert.id === selectedId);
 
+  // Zoom sobre la ciudad elegida. Tenerife vive en el recuadro de Canarias, fuera de
+  // escala, asi que no se le aplica zoom: se resalta in situ.
+  const canZoom = Boolean(selected && selected.lat > 34);
+  const scale = zoomed && canZoom ? 2.15 : 1;
+  const focus = selected && canZoom ? toPct(selected.lon, selected.lat) : { left: 50, top: 50 };
+  const mapTransform =
+    scale > 1
+      ? `translate(calc(50% - ${scale * focus.left}%), calc(50% - ${scale * focus.top}%)) scale(${scale})`
+      : 'none';
+
   function select(concert: Concert, via: 'mapa' | 'lista') {
     setSelectedId(concert.id);
+    setZoomed(concert.lat > 34);
     trackEvent('map_city_select', {
       city: concert.city,
       date: concert.dateISO,
@@ -89,7 +101,7 @@ export function Mapa() {
 
   return (
     <div>
-      <section className="relative overflow-hidden px-4 pt-32 pb-10 sm:px-8 sm:pt-40">
+      <section className="relative overflow-hidden px-4 pt-24 pb-10 sm:px-8 sm:pt-32">
         <div className="tech-grid absolute inset-0 opacity-50" aria-hidden="true" />
         <div className="relative mx-auto max-w-[1400px]">
           <p className="rise font-body text-[11px] font-semibold tracking-[0.36em] text-blood-ink uppercase">
@@ -112,7 +124,24 @@ export function Mapa() {
         <div className="mx-auto grid max-w-[1400px] gap-8 lg:grid-cols-[1.25fr_0.75fr] lg:items-start">
           {/* Mapa */}
           <div className="reveal panel relative p-3 sm:p-5">
-            <div className="relative" style={{ aspectRatio: `${SPAIN_VIEWBOX.w} / ${SPAIN_VIEWBOX.h}` }}>
+            <div
+              className={`relative overflow-hidden${zoomed ? ' map-zoomed' : ''}`}
+              style={{ aspectRatio: `${SPAIN_VIEWBOX.w} / ${SPAIN_VIEWBOX.h}` }}
+            >
+              {scale > 1 ? (
+                <button
+                  type="button"
+                  onClick={() => setZoomed(false)}
+                  className="absolute top-2 right-2 z-10 inline-flex min-h-[44px] items-center border border-bone/45 bg-void/80 px-4 py-2 font-display text-[11px] tracking-[0.2em] text-bone uppercase backdrop-blur-sm transition-colors hover:border-bone hover:bg-steel"
+                >
+                  Ver todo
+                </button>
+              ) : null}
+
+              <div
+                className="absolute inset-0 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none"
+                style={{ transform: mapTransform, transformOrigin: '0 0' }}
+              >
               <svg
                 viewBox={`0 0 ${SPAIN_VIEWBOX.w} ${SPAIN_VIEWBOX.h}`}
                 className="h-full w-full"
@@ -145,7 +174,13 @@ export function Mapa() {
                         isPast ? 'Ya celebrado' : 'Próximo'
                       }`}
                       className="map-dot absolute focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-bone"
-                      style={{ left: `${left}%`, top: `${top}%` }}
+                      style={{
+                        left: `${left}%`,
+                        top: `${top}%`,
+                        transformOrigin: '0 0',
+                        // Contrapeso del zoom: el punto mantiene su tamaño tactil.
+                        transform: `scale(${1 / scale}) translate(-50%, -50%)`,
+                      }}
                       data-active={active}
                       data-past={isPast}
                       data-confirmed={concert.confirmed}
@@ -158,6 +193,7 @@ export function Mapa() {
                     </button>
                   );
                 })}
+              </div>
               </div>
 
               {/* Recuadro de Canarias, fuera de escala */}
@@ -251,10 +287,10 @@ export function Mapa() {
                   setOnlyUpcoming((value) => !value);
                   trackEvent('map_filter_change', { onlyUpcoming: !onlyUpcoming });
                 }}
-                className={`border px-3 py-2 font-body text-[11px] font-semibold tracking-[0.14em] uppercase transition-colors ${
+                className={`inline-flex min-h-[44px] items-center border px-4 py-3 font-body text-[11px] font-semibold tracking-[0.14em] uppercase transition-colors ${
                   onlyUpcoming
                     ? 'border-blood-bright bg-blood text-bone'
-                    : 'border-steel text-smoke hover:border-bone/40 hover:text-bone'
+                    : 'border-bone/45 text-bone hover:border-bone hover:bg-steel'
                 }`}
               >
                 Solo próximos
