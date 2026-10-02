@@ -81,7 +81,7 @@ export const EXPERIENCES: ExperienceMeta[] = [
     short: 'Comunidad',
     description:
       'Espacio para quien sigue el proyecto. Sin registro, sin email y sin recoger datos personales.',
-    status: 'proxima',
+    status: 'listo',
   },
 ];
 

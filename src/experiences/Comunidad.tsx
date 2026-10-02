@@ -466,6 +466,12 @@ function drawCarnet(canvas: HTMLCanvasElement, data: CarnetData): void {
     grad.addColorStop(1, COL.bloodBright);
     ctx.fillStyle = grad;
     ctx.fillRect(LEFT, trackY, fillWidth, 9);
+    // Marcas de escala: la barra se lee como una regla, no como un medidor generico.
+    ctx.fillStyle = 'rgba(243,241,238,0.28)';
+    for (let tick = 1; tick < 4; tick += 1) {
+      const tickX = LEFT + Math.round((CONTENT_W * tick) / 4);
+      ctx.fillRect(tickX, trackY - 6, 2, 21);
+    }
   });
 
   /* --- Pie, con linea de corte --- */
@@ -712,12 +718,12 @@ function PuertaAlDirecto() {
       </div>
 
       <p className="cm-directo-date">{corta}</p>
+      <p className="cm-directo-when">{cita.dateLabel}</p>
       <h3 className="cm-directo-city">{cita.city}</h3>
       <p className="cm-directo-venue">{cita.venue}</p>
 
       <p className="cm-directo-count">
         <span className="cm-directo-count-n">{cuenta}</span>
-        <span className="cm-directo-count-l">{cita.dateLabel}</span>
       </p>
 
       <p className="cm-directo-note">
@@ -758,22 +764,33 @@ export function Comunidad() {
       <section className="cm-hero">
         <div className="cm-hero-glow drift" aria-hidden="true" />
         <div className="tech-grid absolute inset-0 opacity-40" aria-hidden="true" />
-        <div className="relative mx-auto w-full max-w-[1400px]">
+        <div className="cm-hero-inner relative mx-auto w-full max-w-[1400px]">
           <p className="cm-kicker rise">08 · Comunidad</p>
           <h1 className="cm-title rise [animation-delay:120ms]">
             <span className="cm-title-a">Barras</span>
             <span className="cm-title-b">Bravas</span>
           </h1>
-          <p className="cm-lead rise [animation-delay:280ms]">
-            No hay club con cuota ni muro de seguidores. La comunidad de Hijos de la Ruina se ha
-            construido entrega a entrega, en la calle y en un vídeo cada pocos meses. Aquí la
-            contamos con datos que se pueden comprobar, y te dejamos tu propio carnet: se genera en
-            tu móvil y no sale de él.
+          <p className="cm-brand rise [animation-delay:220ms]">
+            La comunidad de <strong>Hijos de la Ruina</strong>. Natos, Waor y Recycled J.
           </p>
-          <div className="cm-hero-tags rise [animation-delay:400ms]">
-            <span className="cm-chip">Sin registro</span>
-            <span className="cm-chip">Sin cuenta</span>
-            <span className="cm-chip">Sin servidor</span>
+          <p className="cm-lead rise [animation-delay:320ms]">
+            Sin club con cuota y sin muro de seguidores: se ha construido entrega a entrega. Aquí va
+            con datos que se pueden comprobar, y con tu carnet, dibujado en tu móvil sin salir de él.
+          </p>
+          <p className="cm-hero-tags rise [animation-delay:440ms]">
+            <span>Sin registro</span>
+            <span className="cm-dot" aria-hidden="true">
+              ·
+            </span>
+            <span>Sin cuenta</span>
+            <span className="cm-dot" aria-hidden="true">
+              ·
+            </span>
+            <span>Sin servidor</span>
+          </p>
+          <div className="cm-scroll rise [animation-delay:560ms]" aria-hidden="true">
+            <span className="cm-scroll-label">Baja</span>
+            <span className="cm-scroll-line" />
           </div>
         </div>
       </section>

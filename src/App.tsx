@@ -8,6 +8,7 @@ import { Mapa } from './experiences/Mapa';
 import { Cancion } from './experiences/Cancion';
 import { Archivo } from './experiences/Archivo';
 import { Live } from './experiences/Live';
+import { Comunidad } from './experiences/Comunidad';
 import { Proximamente } from './experiences/Proximamente';
 import { SoundToggle } from './lib/SoundToggle';
 import { ROUTES, useRoute, useScrollReset } from './lib/router';
@@ -37,6 +38,8 @@ function View({ path }: { path: string }) {
       return <Archivo />;
     case ROUTES.live:
       return <Live />;
+    case ROUTES.comunidad:
+      return <Comunidad />;
     default:
       return <Proximamente path={path} />;
   }
