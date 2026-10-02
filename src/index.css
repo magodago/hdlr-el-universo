@@ -1487,8 +1487,8 @@ body.gate-open footer {
   left: 0;
   right: 0;
   top: 0;
-  height: 2px;
-  background: rgba(243, 241, 238, 0.08);
+  height: 3px;
+  background: rgba(243, 241, 238, 0.14);
 }
 
 .ruina-progress > span {
@@ -1828,9 +1828,9 @@ body.gate-open footer {
 .ruina-card-note {
   margin: 1rem 0 0;
   font-family: var(--font-body);
-  font-size: 0.74rem;
+  font-size: 0.78rem;
   line-height: 1.6;
-  color: var(--color-ash);
+  color: var(--color-smoke);
 }
 
 .ruina-repeat {

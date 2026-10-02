@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { Badge } from '../components/Badge';
 import { Marquee } from '../components/Marquee';
 import { concerts } from '../data';
@@ -156,11 +157,12 @@ export function Live() {
 
   return (
     <div className="lv-root">
-      {curtain ? <div className="lv-curtain" aria-hidden="true" /> : null}
+      {curtain ? createPortal(<div className="lv-curtain" aria-hidden="true" />, document.body) : null}
 
       {/* ---------- Puerta ---------- */}
-      {mode === 'gate' ? (
-        <div className="lv-gate" role="region" aria-label="Puerta de HDLR Live">
+      {mode === 'gate'
+        ? createPortal(
+            <div className="lv-gate" role="region" aria-label="Puerta de HDLR Live">
           <div className="lv-gate-glow" aria-hidden="true" />
           <div className="lv-gate-grid" aria-hidden="true" />
           <div className="lv-gate-scan" aria-hidden="true" />
@@ -193,8 +195,10 @@ export function Live() {
               </a>
             </div>
           </div>
-        </div>
-      ) : null}
+        </div>,
+            document.body,
+          )
+        : null}
 
       {/* ---------- Modo concierto ---------- */}
       {mode === 'inside' ? (

@@ -154,7 +154,7 @@ interface TestProps {
 
 function TestScreen({ index, locked, chosen, reaction, onAnswer }: TestProps) {
   const question = QUESTIONS[index];
-  const progress = (index / QUESTIONS.length) * 100;
+  const progress = ((index + 1) / QUESTIONS.length) * 100;
 
   return (
     <section className="ruina-q-stage" aria-live="polite">

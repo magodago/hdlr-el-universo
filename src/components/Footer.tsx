@@ -10,7 +10,7 @@ export function Footer({ currentPath }: FooterProps) {
   const others = EXPERIENCES.filter((experience) => experience.slug !== currentPath);
 
   return (
-    <footer className="relative border-t border-steel bg-ink px-4 pt-16 pb-10 sm:px-8">
+    <footer className="relative border-t border-steel bg-ink px-4 pt-16 pb-24 sm:px-8 sm:pb-16">
       <div className="mx-auto max-w-[1400px]">
         <p className="font-body text-[11px] font-semibold tracking-[0.34em] text-blood-ink uppercase">
           Sigue el universo
@@ -55,12 +55,14 @@ export function Footer({ currentPath }: FooterProps) {
             HDLR, El Universo. Proyecto personal. Sin cookies, sin analítica de terceros, sin
             registro.
           </p>
-          <Link
-            to={ROUTES.entrada}
-            className="btn-outline px-4 py-2 font-body text-xs font-semibold tracking-[0.24em] uppercase"
-          >
-            Volver a la entrada
-          </Link>
+          {currentPath !== ROUTES.entrada ? (
+            <Link
+              to={ROUTES.entrada}
+              className="btn-outline px-4 py-2 font-body text-xs font-semibold tracking-[0.24em] uppercase"
+            >
+              Volver a la entrada
+            </Link>
+          ) : null}
         </div>
         <p className="mt-4 max-w-3xl text-xs leading-relaxed text-ash">
           Proyecto de homenaje sin ánimo de lucro y sin contenido protegido: no se aloja ni se

@@ -9,7 +9,7 @@ import { trackEvent } from '../lib/trackEvent';
  */
 const NAV_ITEMS = [
   { n: '01', label: 'Tu ruina', to: ROUTES.perfil },
-  { n: '02', label: 'Tu historia', to: ROUTES.archivo },
+  { n: '02', label: 'Tu historia', to: ROUTES.cancion },
   { n: '03', label: 'La ruina', to: ROUTES.mapa },
   { n: '04', label: 'Live', to: ROUTES.live },
 ];
@@ -99,7 +99,7 @@ export function Nav({ path }: NavProps) {
                     to={item.to}
                     data-active={active}
                     aria-current={active ? 'page' : undefined}
-                    className="nav-link inline-flex min-h-[44px] items-center font-body text-[10px] font-semibold tracking-[0.1em] uppercase sm:text-xs sm:tracking-[0.24em]"
+                    className="nav-link inline-flex min-h-[44px] items-center font-body text-[11px] font-semibold tracking-[0.1em] uppercase sm:text-xs sm:tracking-[0.24em]"
                     onClick={() => {
                       trackEvent('nav_click', { from: path, to: item.to });
                     }}
