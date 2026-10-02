@@ -65,7 +65,7 @@ function buildReason(track: CatalogTrack, request: RecommendationRequest): strin
 
 export const localRecommendationEngine: RecommendationEngine = {
   id: 'local',
-  label: 'Motor local',
+  label: 'Recomendación',
   description:
     'Puntua el catalogo en tu propio dispositivo con reglas sobre datos verificados: epoca, colaboraciones y adelantos. Sin red, sin claves y sin perfil de usuario.',
   requiresNetwork: false,

@@ -638,7 +638,7 @@ function buildReason(match: Omit<StoryMatch, 'reason'>): string {
 
 export const localStoryEngine: StoryEngine = {
   id: 'local',
-  label: 'Motor local',
+  label: 'Recomendación',
   description:
     'Lee el texto en tu propio dispositivo, lo convierte en etiquetas y las cruza con los titulos y los datos del catalogo. Sin red, sin claves y sin enviar nada a ningun sitio.',
   requiresNetwork: false,

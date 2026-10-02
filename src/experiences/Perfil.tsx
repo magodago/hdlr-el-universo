@@ -535,8 +535,8 @@ function Recommender() {
       </div>
 
       <p className="mt-4 max-w-2xl text-sm leading-relaxed text-smoke">
-        {engine.label}: {engine.description} Elige unos criterios y mira qué cortes del catálogo
-        encajan. No hay ninguna llamada a internet.
+        Elige unos criterios y mira qué cortes del catálogo encajan mejor: época, entrega y lo que te
+        apetezca escuchar hoy.
       </p>
 
       <fieldset className="mt-6">
@@ -884,8 +884,8 @@ export function Perfil() {
             ¿Y la ruina de verdad?
           </h2>
           <p className="mt-4 max-w-xl text-sm leading-relaxed text-smoke">
-            Lo que has hecho es cosa tuya. Lo de Hijos de la Ruina está aquí abajo, con fuente en
-            cada dato. Ábrelo si te apetece escarbar.
+            Lo que has hecho es cosa tuya. Lo de Hijos de la Ruina está aquí abajo: las cuatro
+            entregas y la cronología del proyecto. Ábrelo si te apetece escarbar.
           </p>
           <button
             type="button"

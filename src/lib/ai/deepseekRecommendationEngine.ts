@@ -34,9 +34,9 @@ export interface DeepseekEngineConfig {
   model: string;
 }
 
-/** Mensaje unico para dejar claro que el motor no esta disponible. */
+/** Mensaje unico si la recomendacion no estuviera disponible en esta entrega. */
 export const DEEPSEEK_DISABLED_MESSAGE =
-  'El motor DeepSeek no esta activado en esta entrega. Funciona el motor local, que no necesita red ni claves.';
+  'La recomendacion no esta disponible ahora mismo. Vuelve a intentarlo en un momento.';
 
 interface InjectedAiConfig {
   endpoint?: unknown;
@@ -85,7 +85,7 @@ export function deepseekRecommendationEngine(config?: DeepseekEngineConfig): Asy
 
   return {
     id: 'deepseek',
-    label: 'DeepSeek (mediante proxy propio)',
+    label: 'Recomendación',
     description:
       'Motor remoto de reserva. Necesita un proxy propio que guarde la clave en el servidor. Apagado por defecto: sin configuracion no se llama nunca.',
     requiresNetwork: true,
